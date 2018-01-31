@@ -60,6 +60,7 @@ header.major {
   border-style: solid;
   background-color: white;
   border-width: 1px;
+  overflow: hidden;
 }
 
 .week .date {
@@ -72,7 +73,8 @@ header.major {
 }
 
 .week .week-title {
-  padding: 2rem;
+  margin-top: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
