@@ -31,6 +31,7 @@ body {
 
 #main {
   background-color: white;
+  margin-bottom: 50px;
 }
 
 .intro {
@@ -85,10 +86,4 @@ header.major {
 .week .week-title a h2:hover {
   letter-spacing: 0.2rem;
   font-size: 2.5em;
-}
-
-#footer {
-  background-color: rgb(144, 148, 152);
-  height: 80px;
-  margin-bottom: 50px;
 }
