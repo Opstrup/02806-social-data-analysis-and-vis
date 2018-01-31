@@ -87,3 +87,13 @@ header.major {
   letter-spacing: 0.2rem;
   font-size: 2.5em;
 }
+
+/* Styling helpers */
+
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+.m-b-20 {
+  margin-bottom: 20px;
+}
