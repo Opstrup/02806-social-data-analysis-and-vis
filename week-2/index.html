@@ -8,6 +8,7 @@
   
   <!-- d3.js -->
   <script src="https://d3js.org/d3.v4.min.js"></script>
+
   <!-- Bootstrap js, Popper and jQuery -->
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
@@ -19,11 +20,6 @@
   <!-- Costum css -->
   <link rel="stylesheet" href="../style.css">
   <link rel="stylesheet" href="week-2-style.css">
-
-  <!-- Costum js -->
-  <script src="../script.js"></script>
-  <script src="week-2-script.js"></script>
-
 </head>
 <body>
   <div class="container">
@@ -51,8 +47,8 @@
         <div class="col-md-12">
           <div class="intro">
             <header class="major">
-              <h2>Introduction</h2>
-              <p>Week 1.</p>
+              <h2>Into D3</h2>
+              <p>Week 2.</p>
             </header>
           </div>
 
@@ -64,47 +60,40 @@
 
           <div class="row">
             <div class="col-md-12">
-                <ul>
-                  <li>Name 7 common HTML elements.</li>
-                  <li>What's the difference between the <code>class</code> and the <code>id</code> HTML attributes.</li>
-                  <li>What does "DOM" stand for? Explain in your own word what it refers to.</li>
-                  <li>What Python structure does the <code>array</code> correspond to?</li>
-                  <li>Which Python container does <code>object</code> correspond to?</li>
-                  <li>Consider the 5 SVG squares in example 3-22. Think about how you'd 
-                    <ul>
-                      <li>Add a gray boundary of width 2.</li>
-                      <li>Make the squares increasingly transparant from left to right.</li>
-                      <li>Make the squares 80 by 80 instead of 30 by 30.</li>
-                      <li>Make the squares go from bottom of the SVG element to the top instead of the other way around.</li>
-                    </ul>
-                  </li>
-                </ul>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-12">
-              <svg width="500" height="50">
-                <rect x="0" y="0" width="300" height="25"/>
-              </svg>
-    
-              <svg width="50" height="50">
-                <circle cx="25" cy="25" r="22"
-                  fill="yellow" stroke="orange" stroke-width="5"/>
-              </svg>
+              <h3>Part 1.</h3>
+              <ul>
+                <li>What is the difference between <em>data</em> and <em>metadata</em>? How does that relate to the bike-example?</li>
+                <li>Sune says that the human eye is a great tool for data analysis. Do you agree? Explain why/why not. Mention something that the human eye is very good at. Can you think of something that <a href="http://cdn.ebaumsworld.com/mediaFiles/picture/718392/84732652.jpg">is difficult for the human eye</a>. Explain why your example is difficult. </li>
+                <li>Simpson's paradox is hard to explain. Come up with your own example - or find one on line.</li>
+                <li>In your own words, explain the differnece between <em>exploratory</em> and <em>explanatory</em> data analysis. </li>
+              </ul>
+              <hr>
             </div>
           </div>
           
           <div class="row">
             <div class="col-md-12">
-              <p>Some overlapping SVG elements</p>
-              <svg width="500" height="200">
-                <rect x="0" y="0" width="90" height="90" fill="purple"/>
-                <rect x="60" y="15" width="90" height="90" fill="blue"/>
-                <rect x="120" y="30" width="90" height="90" fill="green"/>
-                <rect x="180" y="45" width="90" height="90" fill="yellow"/>
-                <rect x="240" y="60" width="90" height="90" fill="red"/>
-              </svg>
+              <ul>
+                <li>As mentioned earlier, visualization is not the only way to test for correlation. We can (for example) calculate the Pearson correlation. Explain in your own words how the Pearson correlation works and write down it's mathematical formulation. Can you think of an example where it fails (and visualization works)?</li>
+                <li>What is the difference between a bar-chart and a histogram?</li>
+                <li>I mention in the video that it's important to choose the right bin-size in histograms. But how do you do that? Do a Google search to find a criterion you like and explain it. </li>
+              </ul>
+              <hr>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <h3>Part 2.</h3>
+                <div class="data-from-csv">
+                </div>
+                <div class="svg-width-d3">
+                  
+                </div>
+                <div class="simple-bar-chart">
+                  
+                </div>
+              <hr>
             </div>
           </div>
 
@@ -115,4 +104,10 @@
 
   </div>
 </body>
+
+<!-- Costum js -->
+<script src="../script.js"></script>
+<script src="week-2-script.js"></script>
+<script src="simple-bar-chart.js"></script>
+
 </html>
