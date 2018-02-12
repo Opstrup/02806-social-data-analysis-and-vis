@@ -6,3 +6,9 @@
   margin: 1px;
   color: white;
 }
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
