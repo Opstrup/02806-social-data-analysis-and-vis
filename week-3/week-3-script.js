@@ -26,15 +26,29 @@ d3.min(dataset, function(d){
 // The first element in each array in the dataset is the x value and the second
 // is the y value
 
+// Padding pushes all the elements inside the SVG so they don't get cut at the 
+// edges
+var padding = 20;
+
 // Setting up x-axis scale
 var xScale = d3.scaleLinear()
                .domain([0, d3.max(dataset, function(d){ return d[0]; })])
-               .range([0, 350])
+               .range([padding, 350 - padding])
 
 // Setting up y-axis scale
 // Reversing the range for y-axis because the svg element has reversed values
 // high y-values is low in the svg (not like a regular coordinate sys)
 var yScale = d3.scaleLinear()
                .domain([0, d3.max(dataset, function(d){ return d[1]; })])
-               .range([350, 0])
+               .range([350 - padding, padding])
+
+
+// Axis
+// Axis can be Top, Left, Bottom and Right
+var xAxis = d3.axisBottom(xScale).ticks(5);
+var yAxis = d3.axisLeft(yScale).ticks(5);
+
+// Use formatter to convert data to different formats
+var myFormat = d3.format(".1%");
+console.log('0.54321 formatted with myFormat is:', myFormat(0.54321));
 
