@@ -17,7 +17,6 @@ d3.select(".simple-bar-chart")
     .data(barData)
   .enter().append("div")
     .style("width", function(d) {
-      console.log(x(d.value));
       return (d.value * 10) + "px"; 
     })
     .text(function(d) { return d.name; });
