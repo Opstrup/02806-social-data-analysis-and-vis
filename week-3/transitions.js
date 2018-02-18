@@ -68,20 +68,62 @@ svg.selectAll("text")
 
 d3.select("#bar-chart-trigger")
   .on("click", function(){
-    console.log('The button was clicked');
-    dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
-      5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
+    // dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
+    //   5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
     
-    dataset = [ 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,
-      11, 11, 11, 11, 11, 11, 11, 11, 11, 11 ];
+    //New values for dataset
+    var numValues = dataset.length; //Count original length of dataset
+    dataset = []; //Initialize empty array
+    for (var i = 0; i < numValues; i++) { //Loop numValues times
+      var newNumber = Math.floor(Math.random() * 25); //New random integer (0-24)
+      dataset.push(newNumber); //Add new number to array 
+    }
+
+    // updating scale domain for y-axis/scale
+    // this is done so new data does not exceed the height of the svg
+    yScale.domain([0, d3.max(dataset)]);
+
+    // .each can be used to execute a transition or change and the beginning of
+    // a transition or at the end of a transition. Here each bar gets the color
+    // magenta before it gets updated and after it turns black.
 
     d3.select(".transition-bar-chart")
       .selectAll("rect")
        .data(dataset)
+       .transition()
+      //  .delay(600)
+       .delay(function(d, i) {
+         return i * 400;
+       })
+       .duration(1000)
+      //  .each("start", function() {
+      //    d3.select(this)
+      //       .arrt("fill", "magenta");
+      //  })
+      //  .ease(d3.easeCircle)
        .attr("y", function(d){
         return height - yScale(d); 
        })
        .attr("height", function(d) {
         return yScale(d);
-      });
+       })
+      //  .each("end", function() {
+      //   d3.select(this)
+      //   .arrt("fill", "black");
+      //  })
+       .attr("fill", function(d){
+        return "rgb(0, 0, " + (d * 10) + ")";
+       });
+
+      svg.selectAll("text")
+         .data(dataset)
+         .text(function(d) {
+           return d;
+         })
+         .attr("x", function(d, i) {
+           return xScale(i) + xScale.bandwidth() / 2;
+         })
+         .attr("y", function(d) {
+           return height - yScale(d) + 14;
+         });
   });
