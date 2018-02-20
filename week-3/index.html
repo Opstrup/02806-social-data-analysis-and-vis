@@ -79,18 +79,39 @@
 
           <div class="row">
             <div class="col-md-12">
+              <h3>Super simple bar chart</h3>
               <div class="bar-chart">
 
               </div>
+              <hr>
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-12">
-              <button type="button" id="bar-chart-trigger" class="btn btn-secondary">Animate</button>
-              <div class="transition-bar-chart">
+              <h3>Bar chart with transitions</h3>
+              <div class="col-md-2 float-right">
+                <button type="button" id="bar-chart-trigger" class="btn btn-secondary">Animate</button>
+              </div>
+              <div class="transition-bar-chart col-md-9">
 
               </div>
+              <hr>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <h3>Bar chart with more transitions</h3>
+              <div class="col-md-2 float-right">
+                <button type="button" id="bar-chart-new-obs" class="btn btn-secondary" style="margin-bottom: 5px">Add observation</button>
+                <button type="button" id="bar-chart-remove-obs" class="btn btn-secondary" style="margin-bottom: 5px">Remove observation</button>
+                <button type="button" id="bar-chart-new-data" class="btn btn-secondary" style="margin-bottom: 5px">New random data</button>
+              </div>
+              <div class="bar-chart-v2 col-md-9">
+
+              </div>
+              <hr>
             </div>
           </div>
 
@@ -107,5 +128,6 @@
 <script src="week-3-script.js"></script>
 <script src="transitions.js"></script>
 <script src="simple-svg-bar-chart.js"></script>
+<script src="bar-chart-v2.js"></script>
 
 </html>

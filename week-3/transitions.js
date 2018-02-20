@@ -68,9 +68,6 @@ svg.selectAll("text")
 
 d3.select("#bar-chart-trigger")
   .on("click", function(){
-    // dataset = [ 11, 12, 15, 20, 18, 17, 16, 18, 23, 25,
-    //   5, 10, 13, 19, 21, 25, 22, 18, 15, 13 ];
-    
     //New values for dataset
     var numValues = dataset.length; //Count original length of dataset
     dataset = []; //Initialize empty array
