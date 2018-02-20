@@ -14,6 +14,9 @@ var yScaleV2 = d3.scaleLinear()
                .domain([0, d3.max(datasetV2, function(d) { return d.value; })])
                .range([0, 250])
 
+// Key function to get the keys out of the data
+var key = function(d) { return d.key; };
+
 // Add svg to DOM
 var svgV2 = d3.select(".bar-chart-v2")
             .append("svg")
@@ -22,7 +25,7 @@ var svgV2 = d3.select(".bar-chart-v2")
 
 // Adding the bars
 svgV2.selectAll("rect")
-  .data(datasetV2)
+  .data(datasetV2, key)
   .enter()
   .append("rect")
   .attr("x", function(d, i) {
@@ -39,19 +42,20 @@ svgV2.selectAll("rect")
     return "rgb(0, 0, " + (d.value * 10) + ")";
   });
 
+// Create new random observations
 d3.select("#bar-chart-new-data")
   .on("click", function() {
     // Create new random ds
-    datasetV2 = genRandomData(datasetV2.length, maxValue);
+    datasetV2 = genRandomKeyMappedData(datasetV2.length, maxValue);
 
     // Updating scale domain for y-axis/scale
     // This is done so new data does not exceed the height of the svg
-    yScaleV2.domain([0, d3.max(datasetV2)]);
+    yScaleV2.domain([0, d3.max(datasetV2, function(d) { return d.value; })]);
 
     // Update all the rects
     d3.select(".bar-chart-v2")
       .selectAll("rect")
-      .data(datasetV2)
+      .data(datasetV2, key)
       .transition()
       .duration(1000)
       .attr("y", function(d){
@@ -65,6 +69,7 @@ d3.select("#bar-chart-new-data")
       });
   });
 
+// Remove observation
 d3.select("#bar-chart-remove-obs")
   .on("click", function() {
     // Remove first observation for ds
@@ -75,7 +80,7 @@ d3.select("#bar-chart-remove-obs")
 
     // Grab update selection
     var bars = svgV2.selectAll("rect")
-      .data(datasetV2);
+      .data(datasetV2, key);
 
     // Exit the chart
     bars.exit()
@@ -86,7 +91,7 @@ d3.select("#bar-chart-remove-obs")
 
     d3.select("#bar-chart-new-obs")
       .selectAll("rect")
-      .data(datasetV2)
+      .data(datasetV2, key)
       .enter()
       .append("rect")
       .attr("x", function(d, i) {
@@ -95,6 +100,7 @@ d3.select("#bar-chart-remove-obs")
       .attr("width", width / datasetV2.length - barPadding)
   });
 
+// Add random observation
 d3.select("#bar-chart-new-obs")
   .on("click", function() {
     // Create one new random key mapped value
@@ -109,7 +115,7 @@ d3.select("#bar-chart-new-obs")
 
     // Grab update selection
     var bars = svgV2.selectAll("rect")
-      .data(datasetV2);
+      .data(datasetV2, key);
 
     // Width the reference to the bars selection, when we use .enter()
     // we only address the new DOM element, without touching all the exsisting
