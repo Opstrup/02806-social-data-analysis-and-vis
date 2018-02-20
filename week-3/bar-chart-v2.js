@@ -86,7 +86,7 @@ d3.select("#bar-chart-remove-obs")
     bars.exit()
         .transition()
         .duration(500)
-        .attr("x", width)
+        .attr("x", -xScaleV2.bandwidth())
         .remove();
 
     d3.select("#bar-chart-new-obs")
@@ -104,10 +104,10 @@ d3.select("#bar-chart-remove-obs")
 d3.select("#bar-chart-new-obs")
   .on("click", function() {
     // Create one new random key mapped value
-    var newRandomKeyMappedValue = { 'key': (datasetV2.length + 1) }
-    newRandomKeyMappedValue.value = Math.floor(Math.random() * maxValue);
+    var newRandomKeyMappedValue = { 'key': (dataset[dataset.length - 1].key + 1) }
+    newRandomKeyMappedValue.value = Math.floor(Math.random() * maxValue) + 1;
 
-    // Add one observation to ds
+    // Add the observation to ds
     datasetV2.push(newRandomKeyMappedValue);
 
     // Update input range of x-axis
@@ -148,3 +148,20 @@ d3.select("#bar-chart-new-obs")
           return yScaleV2(d.value);
         });
   });
+
+d3.select("#sort-data")
+  .on("click", function() {
+    sortBars();
+  });
+
+var sortBars = function() {
+  svgV2.selectAll("rect")
+       .sort(function(a, b) {
+         return d3.ascending(a.value, b.value);
+       })
+       .transition()
+       .duration(1000)
+       .attr("x", function(d, i) {
+         return xScaleV2(i);
+       });
+}
