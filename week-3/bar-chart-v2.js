@@ -40,6 +40,12 @@ svgV2.selectAll("rect")
   })
   .attr("fill", function(d){
     return "rgb(0, 0, " + (d.value * 10) + ")";
+  })
+  .on("mouseover", function(d) {
+    showToolTip(this, d);
+  })
+  .on("mouseout", function() {
+    hideToolTip();
   });
 
 // Create new random observations
@@ -154,14 +160,37 @@ d3.select("#sort-data")
     sortBars();
   });
 
+var sortOrder = false;
+
 var sortBars = function() {
+
+  //Flip value of sortOrder
+  sortOrder = !sortOrder;
+
   svgV2.selectAll("rect")
        .sort(function(a, b) {
-         return d3.ascending(a.value, b.value);
+         return (sortOrder) ? d3.ascending(a.value, b.value) : d3.descending(a.value, b.value);
        })
        .transition()
        .duration(1000)
        .attr("x", function(d, i) {
          return xScaleV2(i);
        });
+}
+
+var showToolTip = function(self, d) {
+  var xPos = parseFloat(d3.select(self).attr("x")) + xScaleV2.bandwidth() / 2;
+  var yPos = parseFloat(d3.select(self).attr("y")) / 2 + height / 2;
+
+  d3.select("#tooltip")
+    .style("left", xPos + "px")
+    .style("top", yPos + "px")
+    .select("#value")
+    .text(d.value);
+
+  d3.select("#tooltip").classed("invisible", false);
+}
+
+var hideToolTip = function() {
+  d3.select("#tooltip").classed("invisible", true);
 }
