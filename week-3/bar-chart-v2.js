@@ -1,6 +1,6 @@
 var datasetLenght = 20;
 var maxValue = 25;
-var datasetV2 = genRandomData(datasetLenght, maxValue);
+var datasetV2 = genRandomKeyMappedData(datasetLenght, maxValue);
 
 var width = 600;
 var height = 300;
@@ -11,7 +11,7 @@ var xScaleV2 = d3.scaleBand()
                .rangeRound([0, width], 0.05)
 
 var yScaleV2 = d3.scaleLinear()
-               .domain([0, d3.max(datasetV2)])
+               .domain([0, d3.max(datasetV2, function(d) { return d.value; })])
                .range([0, 250])
 
 // Add svg to DOM
@@ -29,14 +29,14 @@ svgV2.selectAll("rect")
     return xScaleV2(i);
   })
   .attr("y", function(d){
-    return height - yScaleV2(d);
+    return height - yScaleV2(d.value);
   })
   .attr("width", width / datasetV2.length - barPadding)
   .attr("height", function(d) {
-    return yScaleV2(d);
+    return yScaleV2(d.value);
   })
   .attr("fill", function(d){
-    return "rgb(0, 0, " + (d * 10) + ")";
+    return "rgb(0, 0, " + (d.value * 10) + ")";
   });
 
 d3.select("#bar-chart-new-data")
@@ -55,13 +55,13 @@ d3.select("#bar-chart-new-data")
       .transition()
       .duration(1000)
       .attr("y", function(d){
-        return height - yScaleV2(d);
+        return height - yScaleV2(d.value);
       })
       .attr("height", function(d) {
-        return yScaleV2(d);
+        return yScaleV2(d.value);
       })
       .attr("fill", function(d){
-        return "rgb(0, 0, " + (d * 10) + ")";
+        return "rgb(0, 0, " + (d.value * 10) + ")";
       });
   });
 
@@ -76,15 +76,33 @@ d3.select("#bar-chart-remove-obs")
     // Grab update selection
     var bars = svgV2.selectAll("rect")
       .data(datasetV2);
+
+    // Exit the chart
+    bars.exit()
+        .transition()
+        .duration(500)
+        .attr("x", width)
+        .remove();
+
+    d3.select("#bar-chart-new-obs")
+      .selectAll("rect")
+      .data(datasetV2)
+      .enter()
+      .append("rect")
+      .attr("x", function(d, i) {
+        return xScaleV2(i);
+      })
+      .attr("width", width / datasetV2.length - barPadding)
   });
 
 d3.select("#bar-chart-new-obs")
   .on("click", function() {
-    // Create one new random value
-    var newNumber = Math.floor(Math.random() * maxValue);
+    // Create one new random key mapped value
+    var newRandomKeyMappedValue = { 'key': (datasetV2.length + 1) }
+    newRandomKeyMappedValue.value = Math.floor(Math.random() * maxValue);
 
     // Add one observation to ds
-    datasetV2.push(newNumber);
+    datasetV2.push(newRandomKeyMappedValue);
 
     // Update input range of x-axis
     xScaleV2.domain(d3.range(datasetV2.length));
@@ -100,14 +118,14 @@ d3.select("#bar-chart-new-obs")
         .append("rect")
         .attr("x", width)
         .attr("y", function(d){
-          return height - yScaleV2(d);
+          return height - yScaleV2(d.value);
         })
         .attr("width", width / datasetV2.length - barPadding)
         .attr("height", function(d) {
-          return yScaleV2(d);
+          return yScaleV2(d.value);
         })
         .attr("fill", function(d){
-          return "rgb(0, 0, " + (d * 10) + ")";
+          return "rgb(0, 0, " + (d.value * 10) + ")";
         });
 
     // Some transition for the new added datapoint
@@ -117,10 +135,10 @@ d3.select("#bar-chart-new-obs")
           return xScaleV2(i);
         })
         .attr("y", function(d) {
-          return height - yScaleV2(d)
+          return height - yScaleV2(d.value)
         })
         .attr("width", xScaleV2.bandwidth() - barPadding)
         .attr("height", function(d) {
-          return yScaleV2(d);
+          return yScaleV2(d.value);
         });
   });

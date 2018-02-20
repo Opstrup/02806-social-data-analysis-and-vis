@@ -11,3 +11,13 @@ function genRandomData(numValues, maxValue) {
 
   return randomData;
 }
+
+function genRandomKeyMappedData(numValues, maxValue) {
+  var randomKeyMappedData = [];
+  for (var i = 0; i < numValues; i++) {
+    var newNumber = Math.floor((Math.random() * maxValue) + 1);
+    randomKeyMappedData.push({ 'key': i, 'value': newNumber});
+  }
+
+  return randomKeyMappedData;
+}
