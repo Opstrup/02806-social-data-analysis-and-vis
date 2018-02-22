@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>02806 Social data analysis and visualization</title>
+  
+  <!-- d3.js -->
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <!-- Bootstrap js, Popper and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <!-- Bootstrap css -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- Costum css -->
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="assignment-1-style.css">
+
+</head>
+<body>
+  <div class="container">
+    <div class="spacer">
+      &nbsp;
+    </div>
+    <!-- Nav -->
+    <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav links">
+          <li class="nav-item active">
+            <a class="nav-link" href="/index.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <div id="main" class="col-md-12">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="intro">
+            <header class="major">
+              <h2>Assignment 1</h2>
+            </header>
+          </div>
+
+          <div class="row m-b-10">
+            <div class="col-md-12">
+              <h2>Part 1: DAOST Chapter 2 Questions</h2>
+              <ul>
+                <li>Explain in your own words the point of the jitter plot.</li>
+                <li class="answer">This is a answer</li>
+                <li>Explain in your own words the point of figure 2-3. (I'm going to skip saying "in your own words" going forward, but I hope you get the point; I expect all answers to be in your own words).</li>
+                <li>The author of DAOST (Philipp Janert) likes KDEs (and think they're better than histograms). And I don't. I didn't give a detailed explanation in the video, but now that works to my advantage. I'll ask you guys to think about this and thereby create an excellent exercise: When can KDEs be misleading?</li>
+                <li>I've discussed some strengths of the CDF - there are also weaknesses. Janert writes "[CDFs] have less intuitive appeal than histograms of KDEs". What does he mean by that?</li>
+                <li>What is a <em>Quantile plot</em>? What is it good for. </li>
+                <li>How is a <em>Probablity plot</em> defined? What is it useful for? Have you ever seen one before?</li>
+                <li>One of the reasons I like DAOST is that Janert is so suspicious of mean, median, and related summary statistics. Explain why one has to be careful when using those - and why visualization of the full data is always better. </li>
+                <li>I love box plots. When are box plots most useful?</li>
+                <li>The book doesn't mention <a href="https://en.wikipedia.org/wiki/Violin_plot">violin plots</a>. Are those better or worse than box plots? Why?</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row m-b-10">
+            <div class="col-md-12">
+              <h2>Part 2: DAOST Chapter 3 Questions</h2>
+              <ul>
+                <li>Looking at Fig 3-1, Janert writes "the data itself shows clearly that the amount of random noise in the data is small". What do you think his argument is?</li>
+                <li>Can you think of a real-world example of a multivariate relationship like the one in Fig 3-3 (lower right panel)?</li>
+                <li>What are the two methods Janert metions for smoothing noisy data? Can you think of other ones?</li>
+                <li>What are residuals? Why is it a good idea to plot the residuals of your fit?</li>
+                <li>Explain in your own words the point of the smooth tube in figure 3-7.</li>
+                <li>What kind of relationships will a semi-log plot help you discover?</li>
+                <li>What kind of functions will loglog plots help you see?</li>
+                <li>What the h#ll is <em>banking</em> and what element from our visual system does it use to help us see patterns? What are potential problems with banking?</li>
+                <li>I think figure 3-14 makes an important point about linear fits that is rarely made. What is it? </li>
+                <li>Summarize the discussion of <em>Graphical Analysis</em> and <em>Presentation Graphics</em> on pp. 68-69 in your own words.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row m-b-10">
+            <div class="col-md-12">
+              <h2>Part 3: Viz 1</h2>
+              
+            </div>
+          </div>
+
+          <div class="row m-b-10">
+            <div class="col-md-12">
+              <h2>Part 4: Viz 2</h2>
+              
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</body>
+
+<!-- Costum js -->
+<script src="../script.js"></script>
+<script src="assignment-1-script.js"></script>
+
+</html>
