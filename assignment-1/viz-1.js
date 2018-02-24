@@ -186,6 +186,8 @@ var width = 600;
 var height = 300;
 var barPadding = 15;
 var chartPadding = 25;
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 // Initial drawing of chart
 d3.csv("fruts.csv", function(error, data){
@@ -200,6 +202,7 @@ d3.csv("fruts.csv", function(error, data){
 
   ds = Object.values(initObj).map(function(x) { return Number(x)});
 
+  // Setting up scalers
   var xScale = d3.scaleBand()
                 .domain(d3.range(ds.length))
                 .rangeRound([0, width], 0.1)
@@ -215,9 +218,12 @@ d3.csv("fruts.csv", function(error, data){
                     .domain([new Date(2018, 01, 01), new Date(2018, 11, 31)])
                     .range([chartPadding, width - chartPadding]);
 
+  var dScale = d3.scaleBand()
+                 .domain(months)
+                 .rangeRound([chartPadding, width - chartPadding]);
+
   var xAxis = d3.axisBottom()
-                .scale(dateScale)
-                .tickFormat(d3.timeFormat("%b"));
+                .scale(dScale);
 
   var yAxis = d3.axisLeft()
                 .scale(yScale)
@@ -235,7 +241,7 @@ d3.csv("fruts.csv", function(error, data){
     .enter()
     .append("rect")
     .attr("x", function(d, i) {
-      return xScale(i) + (barPadding / 2);
+      return dScale(months[i]) + (barPadding / 2);
     })
     .attr("y", function(d){
       return yScale(d);
@@ -264,23 +270,21 @@ d3.csv("fruts.csv", function(error, data){
     .duration(500)
     .call(yAxis);
 
+  // Tooltip functions
+  var showToolTip = function(self, d) {
+    var xPos = parseFloat(d3.select(self).attr("x")) + xScale.bandwidth() / 2;
+    var yPos = parseFloat(d3.select(self).attr("y")) / 2 + height / 2;
 
-// Tooltip functions
-var showToolTip = function(self, d) {
-  var xPos = parseFloat(d3.select(self).attr("x")) + xScale.bandwidth() / 2;
-  var yPos = parseFloat(d3.select(self).attr("y")) / 2 + height / 2;
+    d3.select("#tooltip")
+      .style("left", xPos + "px")
+      .style("top", yPos + "px")
+      .select("#value")
+      .text(d);
 
-  d3.select("#tooltip")
-    .style("left", xPos + "px")
-    .style("top", yPos + "px")
-    .select("#value")
-    .text(d);
+    d3.select("#tooltip").classed("invisible", false);
+  }
 
-  d3.select("#tooltip").classed("invisible", false);
-}
-
-var hideToolTip = function() {
-  d3.select("#tooltip").classed("invisible", true);
-}
-
+  var hideToolTip = function() {
+    d3.select("#tooltip").classed("invisible", true);
+  }
 });
