@@ -6,8 +6,8 @@ d3.selectAll('button')
         console.log('Error with loading the cvs file', error);
       }
 
-      var dsObj;
-      var barColor;
+      var dsObj, barColor, stack;
+      var drawStacked = false;
       switch (self) {
         case 'fresh-fruit':
           dsObj = data[0];
@@ -25,54 +25,69 @@ d3.selectAll('button')
           dsObj = data[3];
           barColor = '#e0e8ca';
           break;
+        case 'stack':
+          // prepare dataset
+          drawStacked = true;
+          dsObj = data;
+          barColor = '#e0e8ca';
+          console.log(dsObj);
+          stack = d3.stack()
+                    .keys(['Harvest fruits', 'Storage fruits',
+                           'Harvest vegetables', 'Storage vegetables']);
+          break;
       }
-      delete dsObj.Index;
-      delete dsObj.Freshness;
-      delete dsObj.Category;
+      if (drawStacked) {
 
-      ds = Object.values(dsObj).map(function(x) { return Number(x)});
-
-      var yScale = d3.scaleLinear()
-                     .domain([0, d3.max(ds, function(d) { 
-                       return d; 
-                     })])
-                     .rangeRound([height - chartPadding, chartPadding])
-
-      var yAxis = d3.axisLeft()
-                    .scale(yScale)
-                    .ticks(10);
-
-      function make_y_gridlines() {
-        return d3.axisLeft(yScale)
-                  .ticks(5);
+      } else {
+        delete dsObj.Index;
+        delete dsObj.Freshness;
+        delete dsObj.Category;
+  
+        ds = Object.values(dsObj).map(function(x) { return Number(x)});
+  
+        var yScale = d3.scaleLinear()
+                       .domain([0, d3.max(ds, function(d) { 
+                         return d; 
+                       })])
+                       .rangeRound([height - chartPadding, chartPadding])
+  
+        var yAxis = d3.axisLeft()
+                      .scale(yScale)
+                      .ticks(10);
+  
+        function make_y_gridlines() {
+          return d3.axisLeft(yScale)
+                    .ticks(5);
+        }
+  
+        // Update Y gridlines
+        d3.select(".grid")
+          .transition()
+          .duration(500)
+          .call(make_y_gridlines()
+            .tickSize(-(width - (chartPadding * 2)))
+            .tickFormat(""))
+  
+        // Update all the rects
+        d3.select("#viz-1")
+          .selectAll("rect")
+          .data(ds)
+          .transition()
+          .duration(1000)
+          .attr("y", function(d){
+            return yScale(d);
+          })
+          .attr("height", function(d) {
+            return height - yScale(d) - chartPadding;
+          })
+          .attr("fill", barColor);
+  
+        // Update y-axis
+        d3.select(".y-axis")
+          .transition()
+          .duration(500)
+          .call(yAxis);
       }
-
-      // Update Y gridlines
-      d3.select(".grid")
-        .attr("transform", "translate(" + chartPadding + ", 0)")
-        .call(make_y_gridlines()
-          .tickSize(-(width - (chartPadding * 2)))
-          .tickFormat(""))
-
-      // Update all the rects
-      d3.select("#viz-1")
-        .selectAll("rect")
-        .data(ds)
-        .transition()
-        .duration(1000)
-        .attr("y", function(d){
-          return yScale(d);
-        })
-        .attr("height", function(d) {
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("fill", barColor);
-
-      // Update y-axis
-      d3.select(".y-axis")
-        .transition()
-        .duration(500)
-        .call(yAxis);
     });
   });
 
