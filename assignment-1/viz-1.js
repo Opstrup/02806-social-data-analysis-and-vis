@@ -185,7 +185,7 @@ d3.csv("fruts.csv", function(error, data){
                 .domain([0, d3.max(ds, function(d) { 
                   return d; 
                 })])
-                .rangeRound([height, 0])
+                .rangeRound([height - chartPadding, chartPadding])
 
   // Setting up axis
   var dateScale = d3.scaleTime()
