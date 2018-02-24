@@ -42,6 +42,18 @@ d3.selectAll('button')
                     .scale(yScale)
                     .ticks(10);
 
+      function make_y_gridlines() {
+        return d3.axisLeft(yScale)
+                  .ticks(5);
+      }
+
+      // Update Y gridlines
+      d3.select(".grid")
+        .attr("transform", "translate(" + chartPadding + ", 0)")
+        .call(make_y_gridlines()
+          .tickSize(-(width - (chartPadding * 2)))
+          .tickFormat(""))
+
       // Update all the rects
       d3.select("#viz-1")
         .selectAll("rect")
