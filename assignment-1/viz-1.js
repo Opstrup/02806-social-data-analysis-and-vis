@@ -244,7 +244,13 @@ d3.csv("fruts.csv", function(error, data){
       return height - yScale(d) - chartPadding;
     })
     .attr("width", width / ds.length - barPadding)
-    .attr("fill", "#ed4630");
+    .attr("fill", "#ed4630")
+    .on("mouseover", function(d) {
+      showToolTip(this, d);
+    })
+    .on("mouseout", function() {
+      hideToolTip();
+    });
 
   svg.append("g")
     .attr("class", "axis")
@@ -257,4 +263,24 @@ d3.csv("fruts.csv", function(error, data){
     .transition()
     .duration(500)
     .call(yAxis);
+
+
+// Tooltip functions
+var showToolTip = function(self, d) {
+  var xPos = parseFloat(d3.select(self).attr("x")) + xScale.bandwidth() / 2;
+  var yPos = parseFloat(d3.select(self).attr("y")) / 2 + height / 2;
+
+  d3.select("#tooltip")
+    .style("left", xPos + "px")
+    .style("top", yPos + "px")
+    .select("#value")
+    .text(d);
+
+  d3.select("#tooltip").classed("invisible", false);
+}
+
+var hideToolTip = function() {
+  d3.select("#tooltip").classed("invisible", true);
+}
+
 });
