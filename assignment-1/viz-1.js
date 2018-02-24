@@ -1,16 +1,36 @@
-d3.select("#fresh-fruit").
-  on("click", function() {
+d3.selectAll('button')
+  .on('click', function() {
+    var self = this.id;
     d3.csv("fruts.csv", function(error, data){
       if (error) {
         console.log('Error with loading the cvs file', error);
       }
-    
-      var freshFruitsObj = data[0];
-      delete freshFruitsObj.Index
-      delete freshFruitsObj.Freshness
-      delete freshFruitsObj.Category
 
-      ds = Object.values(freshFruitsObj).map(function(x) { return Number(x)});
+      var dsObj;
+      var barColor;
+      switch (self) {
+        case 'fresh-fruit':
+          dsObj = data[0];
+          barColor = '#ed4630';
+          break;
+        case 'fresh-veg':
+          dsObj = data[2];
+          barColor = '#438e17';
+          break;
+        case 'storage-fruit':
+          dsObj = data[1];
+          barColor = '#f39ca0';
+          break;
+        case 'storage-veg':
+          dsObj = data[3];
+          barColor = '#e0e8ca';
+          break;
+      }
+      delete dsObj.Index;
+      delete dsObj.Freshness;
+      delete dsObj.Category;
+
+      ds = Object.values(dsObj).map(function(x) { return Number(x)});
 
       var yScale = d3.scaleLinear()
                      .domain([0, d3.max(ds, function(d) { 
@@ -34,152 +54,14 @@ d3.select("#fresh-fruit").
         .attr("height", function(d) {
           return height - yScale(d) - chartPadding;
         })
-        .attr("fill", "#ed4630");
+        .attr("fill", barColor);
 
       // Update y-axis
       d3.select(".y-axis")
         .transition()
         .duration(500)
         .call(yAxis);
-    })
-  });
-
-d3.select("#fresh-veg").
-  on("click", function() {
-    d3.csv("fruts.csv", function(error, data){
-      if (error) {
-        console.log('Error with loading the cvs file', error);
-      }
-    
-      var freshVeg = data[2];
-      delete freshVeg.Index
-      delete freshVeg.Freshness
-      delete freshVeg.Category
-
-      ds = Object.values(freshVeg).map(function(x) { return Number(x)});
-
-      var yScale = d3.scaleLinear()
-                     .domain([0, d3.max(ds, function(d) { 
-                       return d; 
-                     })])
-                     .rangeRound([height - chartPadding, chartPadding])
-
-      var yAxis = d3.axisLeft()
-                    .scale(yScale)
-                    .ticks(10);
-
-      // Update all the rects
-      d3.select("#viz-1")
-        .selectAll("rect")
-        .data(ds)
-        .transition()
-        .duration(1000)
-        .attr("y", function(d){
-          return yScale(d);
-        })
-        .attr("height", function(d) {
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("fill", "#438e17");
-
-      // Update y-axis
-      d3.select(".y-axis")
-      .transition()
-      .duration(500)
-      .call(yAxis);
-    })
-  });
-
-d3.select("#storage-fruit").
-  on("click", function() {
-    d3.csv("fruts.csv", function(error, data){
-      if (error) {
-        console.log('Error with loading the cvs file', error);
-      }
-
-      var storageFruits = data[1];
-      delete storageFruits.Index
-      delete storageFruits.Freshness
-      delete storageFruits.Category
-    
-      ds = Object.values(storageFruits).map(function(x) { return Number(x)});
-
-      var yScale = d3.scaleLinear()
-                     .domain([0, d3.max(ds, function(d) { 
-                       return d; 
-                     })])
-                     .rangeRound([height - chartPadding, chartPadding])
-
-      var yAxis = d3.axisLeft()
-                    .scale(yScale)
-                    .ticks(10);
-
-      // Update all the rects
-      d3.select("#viz-1")
-        .selectAll("rect")
-        .data(ds)
-        .transition()
-        .duration(1000)
-        .attr("y", function(d){
-          return yScale(d);
-        })
-        .attr("height", function(d) {
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("fill", "#f39ca0");
-
-      // Update y-axis
-      d3.select(".y-axis")
-        .transition()
-        .duration(500)
-        .call(yAxis);
-    })
-  });
-
-d3.select("#storage-veg").
-  on("click", function() {
-    d3.csv("fruts.csv", function(error, data){
-      if (error) {
-        console.log('Error with loading the cvs file', error);
-      }
-    
-      var storageVeg = data[3];
-      delete storageVeg.Index
-      delete storageVeg.Freshness
-      delete storageVeg.Category
-
-      ds = Object.values(storageVeg).map(function(x) { return Number(x)});
-
-      var yScale = d3.scaleLinear()
-                     .domain([0, d3.max(ds, function(d) { 
-                       return d; 
-                     })])
-                     .rangeRound([height - chartPadding, chartPadding])
-
-      var yAxis = d3.axisLeft()
-                    .scale(yScale)
-                    .ticks(10);
-
-      // Update all the rects
-      d3.select("#viz-1")
-        .selectAll("rect")
-        .data(ds)
-        .transition()
-        .duration(1000)
-        .attr("y", function(d){
-          return yScale(d);
-        })
-        .attr("height", function(d) {
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("fill", "#e0e8ca");
-
-      // Update y-axis
-      d3.select(".y-axis")
-        .transition()
-        .duration(500)
-        .call(yAxis);
-    })
+    });
   });
 
 var width = 800;
