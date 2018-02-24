@@ -34,7 +34,6 @@ var yScale = d3.scaleLinear()
                   })
                 ])
                 .rangeRound([ stackedH - padding, padding ]);
-                // .rangeRound([ padding, stackedH - padding ]);
 
 /**
  * Setting up axis
@@ -76,9 +75,6 @@ var rects = groups.selectAll("rect")
                     return xScale(i);
                   })
                   .attr("y", function(d) {
-                    console.log(d);
-                    console.log('yScale', yScale(d[0]));
-                    console.log('stackedH', stackedH)
                     return stackedH - yScale(d[0]);
                   })
                   .attr("height", function(d) {
