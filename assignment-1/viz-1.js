@@ -182,10 +182,10 @@ d3.select("#storage-veg").
     })
   });
 
-var width = 600;
-var height = 300;
+var width = 800;
+var height = 500;
 var barPadding = 15;
-var chartPadding = 25;
+var chartPadding = 50;
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -261,6 +261,24 @@ d3.csv("fruts.csv", function(error, data){
     .transition()
     .duration(500)
     .call(yAxis);
+
+  svg.append("text")
+     .attr("transform", "translate(" + (width / 2) + ",15)")
+     .style("text-anchor", "middle")
+     .style("font-weight", "bold")
+     .text("NYC Green Markets - Unique Produce Types");
+
+  svg.append("text")
+     .attr("transform", "translate(" + (width / 2) + "," + (height - 10) + ")")
+     .style("text-anchor", "middle")
+     .text("Months");
+
+  svg.append("text")
+     .attr("x", -(height / 2))
+     .attr("y", 10)
+     .attr("transform", "rotate(-90)")
+     .style("text-anchor", "middle")
+     .text("# of unique kinds of produce");
 
   // Tooltip functions
   var showToolTip = function(self, d) {
