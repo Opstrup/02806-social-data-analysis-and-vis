@@ -33,3 +33,26 @@
   font-size: 16px;
   line-height: 20px;
 }
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.fresh-fruit {
+  background-color: #ed4630;
+}
+
+.fresh-veg {
+  background-color: #438e17;
+}
+
+.storage-fruit {
+  background-color: #f39ca0;
+}
+
+.storage-veg {
+  background-color: #e0e8ca;
+}
