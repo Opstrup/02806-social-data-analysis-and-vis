@@ -190,7 +190,7 @@ d3.csv("fruts.csv", function(error, data){
   // Setting up axis
   var dateScale = d3.scaleTime()
                     .domain([new Date(2018, 0, 1), new Date(2018, 11, 31)])
-                    .range([0, width]);
+                    .range([chartPadding, width - chartPadding]);
 
   var xAxis = d3.axisBottom()
                 .scale(dateScale)
