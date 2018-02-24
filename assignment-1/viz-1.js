@@ -203,10 +203,6 @@ d3.csv("fruts.csv", function(error, data){
   ds = Object.values(initObj).map(function(x) { return Number(x)});
 
   // Setting up scalers
-  var xScale = d3.scaleBand()
-                .domain(d3.range(ds.length))
-                .rangeRound([0, width], 0.1)
-
   var yScale = d3.scaleLinear()
                 .domain([0, d3.max(ds, function(d) { 
                   return d; 
@@ -214,10 +210,6 @@ d3.csv("fruts.csv", function(error, data){
                 .rangeRound([height - chartPadding, chartPadding])
 
   // Setting up axis
-  var dateScale = d3.scaleTime()
-                    .domain([new Date(2018, 01, 01), new Date(2018, 11, 31)])
-                    .range([chartPadding, width - chartPadding]);
-
   var dScale = d3.scaleBand()
                  .domain(months)
                  .rangeRound([chartPadding, width - chartPadding]);
