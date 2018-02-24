@@ -219,12 +219,12 @@ d3.csv("fruts.csv", function(error, data){
 
   var yAxis = d3.axisLeft()
                 .scale(yScale)
-                .ticks(5);
+                .ticks(10);
 
   // gridlines in y axis function
   function make_y_gridlines() {
     return d3.axisLeft(yScale)
-            .ticks(5)
+             .ticks(5);
   }
 
   // Add svg to DOM
@@ -234,10 +234,11 @@ d3.csv("fruts.csv", function(error, data){
               .attr("height", height);
 
   // add the Y gridlines
-  svg.append("g")			
+  svg.append("g")
     .attr("class", "grid")
+    .attr("transform", "translate(" + chartPadding + ", 0)")
     .call(make_y_gridlines()
-      .tickSize(-width)
+      .tickSize(-(width - (chartPadding * 2)))
       .tickFormat(""))
 
   // Adding the bars
