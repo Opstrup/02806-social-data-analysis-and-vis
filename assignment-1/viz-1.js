@@ -26,30 +26,82 @@ d3.selectAll('button')
           barColor = '#e0e8ca';
           break;
         case 'stack':
-          // prepare dataset
           drawStacked = true;
-          dsObj = data;
+
+          // prepare dataset
+          dsObj = data.filter(function(x) {
+            delete x.Index;
+            delete x.Freshness;
+            delete x.Category;
+            return x;
+          })
+          .map(function(x) {
+            return Object.values(x).map(function(y) { return Number(y) });
+          });
+
+          res = [];
+          for (i = 0; i < dsObj[0].length; i++) {
+            res.push({
+              'Harvest fruits': dsObj[0][i],
+              'Storage fruits': dsObj[1][i],
+              'Harvest vegetables': dsObj[2][i],
+              'Storage vegetables': dsObj[3][i]
+            })
+          }
+
           barColor = '#e0e8ca';
-          console.log(dsObj);
+
           stack = d3.stack()
                     .keys(['Harvest fruits', 'Storage fruits',
                            'Harvest vegetables', 'Storage vegetables']);
+          ds = stack(res);
           break;
       }
       if (drawStacked) {
+        console.log('Stack that shit!');
+        var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        yScale = d3.scaleLinear()
+                  .domain([0, d3.max(ds, function(d) { 
+                      return d3.max(d, function(d) {
+                        return d[0] + d[1];
+                      }); 
+                    })
+                  ])
+                  .rangeRound([height - chartPadding, chartPadding]);
+
+        var groups = d3.select('#viz-1')
+                       .selectAll("g")
+                       .data(ds)
+                       .enter()
+                       .append("g")
+                       .style("fill", function(d, i) {
+                         return color(i);
+                       });
+
+        var rects = groups.selectAll("rect")
+              .data(function(d) { return d; })
+              .enter()
+              .append("rect")
+              .attr("y", function(d) {
+                return yScale(d[0]);
+              })
+              .attr("height", function(d) {
+                return height - yScale(d[1]) - padding;
+              });
 
       } else {
         delete dsObj.Index;
         delete dsObj.Freshness;
         delete dsObj.Category;
   
-        ds = Object.values(dsObj).map(function(x) { return Number(x)});
+        ds = Object.values(dsObj).map(function(x) { return Number(x) });
   
         var yScale = d3.scaleLinear()
                        .domain([0, d3.max(ds, function(d) { 
                          return d; 
                        })])
-                       .rangeRound([height - chartPadding, chartPadding])
+                       .rangeRound([height - chartPadding, chartPadding]);
   
         var yAxis = d3.axisLeft()
                       .scale(yScale)
@@ -109,7 +161,7 @@ d3.csv("fruts.csv", function(error, data){
   delete initObj.Freshness
   delete initObj.Category
 
-  ds = Object.values(initObj).map(function(x) { return Number(x)});
+  ds = Object.values(initObj).map(function(x) { return Number(x) });
 
   // Setting up scalers
   var yScale = d3.scaleLinear()
