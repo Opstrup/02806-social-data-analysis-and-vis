@@ -18,6 +18,10 @@ d3.select("#fresh-fruit").
                      })])
                      .rangeRound([height - chartPadding, chartPadding])
 
+      var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5);
+
       // Update all the rects
       d3.select("#viz-1")
         .selectAll("rect")
@@ -31,6 +35,12 @@ d3.select("#fresh-fruit").
           return height - yScale(d) - chartPadding;
         })
         .attr("fill", "#ed4630");
+
+      // Update y-axis
+      d3.select(".y-axis")
+        .transition()
+        .duration(500)
+        .call(yAxis);
     })
   });
 
@@ -54,6 +64,10 @@ d3.select("#fresh-veg").
                      })])
                      .rangeRound([height - chartPadding, chartPadding])
 
+      var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5);
+
       // Update all the rects
       d3.select("#viz-1")
         .selectAll("rect")
@@ -67,6 +81,12 @@ d3.select("#fresh-veg").
           return height - yScale(d) - chartPadding;
         })
         .attr("fill", "#438e17");
+
+      // Update y-axis
+      d3.select(".y-axis")
+      .transition()
+      .duration(500)
+      .call(yAxis);
     })
   });
 
@@ -89,7 +109,11 @@ d3.select("#storage-fruit").
                        return d; 
                      })])
                      .rangeRound([height - chartPadding, chartPadding])
-      
+
+      var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5);
+
       // Update all the rects
       d3.select("#viz-1")
         .selectAll("rect")
@@ -103,6 +127,12 @@ d3.select("#storage-fruit").
           return height - yScale(d) - chartPadding;
         })
         .attr("fill", "#f39ca0");
+
+      // Update y-axis
+      d3.select(".y-axis")
+        .transition()
+        .duration(500)
+        .call(yAxis);
     })
   });
 
@@ -126,6 +156,10 @@ d3.select("#storage-veg").
                      })])
                      .rangeRound([height - chartPadding, chartPadding])
 
+      var yAxis = d3.axisLeft()
+                    .scale(yScale)
+                    .ticks(5);
+
       // Update all the rects
       d3.select("#viz-1")
         .selectAll("rect")
@@ -139,13 +173,19 @@ d3.select("#storage-veg").
           return height - yScale(d) - chartPadding;
         })
         .attr("fill", "#e0e8ca");
+
+      // Update y-axis
+      d3.select(".y-axis")
+        .transition()
+        .duration(500)
+        .call(yAxis);
     })
   });
 
 var width = 600;
 var height = 300;
 var barPadding = 15;
-var chartPadding = 20;
+var chartPadding = 25;
 
 // Initial drawing of chart
 d3.csv("fruts.csv", function(error, data){
@@ -212,7 +252,9 @@ d3.csv("fruts.csv", function(error, data){
     .call(xAxis);
 
   svg.append("g")
-    .attr("class", "axis")
+    .attr("class", "axis y-axis")
     .attr("transform", "translate(" + chartPadding + ", 0)")
+    .transition()
+    .duration(500)
     .call(yAxis);
 });
