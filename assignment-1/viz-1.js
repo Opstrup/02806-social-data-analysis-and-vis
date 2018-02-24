@@ -163,6 +163,8 @@ var width = 600;
 var height = 300;
 var barPadding = 1;
 var chartPadding = 20;
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 // Initial drawing of chart
 d3.csv("fruts.csv", function(error, data){
@@ -189,7 +191,7 @@ d3.csv("fruts.csv", function(error, data){
 
   // Setting up axis
   var dateScale = d3.scaleTime()
-                    .domain([new Date(2018, 0, 1), new Date(2018, 11, 31)])
+                    .domain([new Date(2018, 01, 01), new Date(2018, 11, 31)])
                     .range([chartPadding, width - chartPadding]);
 
   var xAxis = d3.axisBottom()
