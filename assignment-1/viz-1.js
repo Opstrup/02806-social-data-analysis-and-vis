@@ -13,10 +13,10 @@ d3.select("#fresh-fruit").
       ds = Object.values(freshFruitsObj).map(function(x) { return Number(x)});
 
       var yScale = d3.scaleLinear()
-                .domain([0, d3.max(ds, function(d) { 
-                  return d; 
-                })])
-                .range([0, 250])
+                     .domain([0, d3.max(ds, function(d) { 
+                       return d; 
+                     })])
+                     .rangeRound([height - chartPadding, chartPadding])
 
       // Update all the rects
       d3.select("#viz-1")
@@ -25,14 +25,12 @@ d3.select("#fresh-fruit").
         .transition()
         .duration(1000)
         .attr("y", function(d){
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("height", function(d) {
           return yScale(d);
         })
-        .attr("fill", function(d){
-          return "rgb(0, 0, " + (d * 10) + ")";
-        });
+        .attr("height", function(d) {
+          return height - yScale(d) - chartPadding;
+        })
+        .attr("fill", "#ed4630");
     })
   });
 
@@ -49,15 +47,12 @@ d3.select("#fresh-veg").
       delete freshVeg.Category
 
       ds = Object.values(freshVeg).map(function(x) { return Number(x)});
-      var xScale = d3.scaleBand()
-                .domain(d3.range(ds.length))
-                .rangeRound([0, width], 0.05)
 
       var yScale = d3.scaleLinear()
-                .domain([0, d3.max(ds, function(d) { 
-                  return d; 
-                })])
-                .range([0, 250])
+                     .domain([0, d3.max(ds, function(d) { 
+                       return d; 
+                     })])
+                     .rangeRound([height - chartPadding, chartPadding])
 
       // Update all the rects
       d3.select("#viz-1")
@@ -66,14 +61,12 @@ d3.select("#fresh-veg").
         .transition()
         .duration(1000)
         .attr("y", function(d){
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("height", function(d) {
           return yScale(d);
         })
-        .attr("fill", function(d){
-          return "rgb(0, 0, " + (d * 10) + ")";
-        });
+        .attr("height", function(d) {
+          return height - yScale(d) - chartPadding;
+        })
+        .attr("fill", "#438e17");
     })
   });
 
@@ -90,15 +83,12 @@ d3.select("#storage-fruit").
       delete storageFruits.Category
     
       ds = Object.values(storageFruits).map(function(x) { return Number(x)});
-      var xScale = d3.scaleBand()
-                .domain(d3.range(ds.length))
-                .rangeRound([0, width], 0.05)
 
       var yScale = d3.scaleLinear()
-                .domain([0, d3.max(ds, function(d) { 
-                  return d; 
-                })])
-                .range([0, 250])
+                     .domain([0, d3.max(ds, function(d) { 
+                       return d; 
+                     })])
+                     .rangeRound([height - chartPadding, chartPadding])
       
       // Update all the rects
       d3.select("#viz-1")
@@ -107,14 +97,12 @@ d3.select("#storage-fruit").
         .transition()
         .duration(1000)
         .attr("y", function(d){
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("height", function(d) {
           return yScale(d);
         })
-        .attr("fill", function(d){
-          return "rgb(0, 0, " + (d * 10) + ")";
-        });
+        .attr("height", function(d) {
+          return height - yScale(d) - chartPadding;
+        })
+        .attr("fill", "#f39ca0");
     })
   });
 
@@ -131,15 +119,12 @@ d3.select("#storage-veg").
       delete storageVeg.Category
 
       ds = Object.values(storageVeg).map(function(x) { return Number(x)});
-      var xScale = d3.scaleBand()
-                .domain(d3.range(ds.length))
-                .rangeRound([0, width], 0.05)
 
       var yScale = d3.scaleLinear()
-                .domain([0, d3.max(ds, function(d) { 
-                  return d; 
-                })])
-                .range([0, 250])
+                     .domain([0, d3.max(ds, function(d) { 
+                       return d; 
+                     })])
+                     .rangeRound([height - chartPadding, chartPadding])
 
       // Update all the rects
       d3.select("#viz-1")
@@ -148,14 +133,12 @@ d3.select("#storage-veg").
         .transition()
         .duration(1000)
         .attr("y", function(d){
-          return height - yScale(d) - chartPadding;
-        })
-        .attr("height", function(d) {
           return yScale(d);
         })
-        .attr("fill", function(d){
-          return "rgb(0, 0, " + (d * 10) + ")";
-        });
+        .attr("height", function(d) {
+          return height - yScale(d) - chartPadding;
+        })
+        .attr("fill", "#e0e8ca");
     })
   });
 
@@ -163,8 +146,6 @@ var width = 600;
 var height = 300;
 var barPadding = 15;
 var chartPadding = 20;
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 // Initial drawing of chart
 d3.csv("fruts.csv", function(error, data){
@@ -172,12 +153,12 @@ d3.csv("fruts.csv", function(error, data){
     console.log('Error with loading the cvs file', error);
   }
 
-  var freshFruitsObj = data[0];
-  delete freshFruitsObj.Index
-  delete freshFruitsObj.Freshness
-  delete freshFruitsObj.Category
+  var initObj = data[0];
+  delete initObj.Index
+  delete initObj.Freshness
+  delete initObj.Category
 
-  ds = Object.values(freshFruitsObj).map(function(x) { return Number(x)});
+  ds = Object.values(initObj).map(function(x) { return Number(x)});
 
   var xScale = d3.scaleBand()
                 .domain(d3.range(ds.length))
@@ -219,13 +200,11 @@ d3.csv("fruts.csv", function(error, data){
     .attr("y", function(d){
       return yScale(d);
     })
-    .attr("width", width / ds.length - barPadding)
     .attr("height", function(d) {
       return height - yScale(d) - chartPadding;
     })
-    .attr("fill", function(d){
-      return "rgb(0, 0, " + (d * 10) + ")";
-    });
+    .attr("width", width / ds.length - barPadding)
+    .attr("fill", "#ed4630");
 
   svg.append("g")
     .attr("class", "axis")
