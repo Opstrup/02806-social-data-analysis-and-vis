@@ -161,7 +161,7 @@ d3.select("#storage-veg").
 
 var width = 600;
 var height = 300;
-var barPadding = 1;
+var barPadding = 15;
 var chartPadding = 20;
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
               'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -214,7 +214,7 @@ d3.csv("fruts.csv", function(error, data){
     .enter()
     .append("rect")
     .attr("x", function(d, i) {
-      return xScale(i);
+      return xScale(i) + (barPadding / 2);
     })
     .attr("y", function(d){
       return yScale(d);
