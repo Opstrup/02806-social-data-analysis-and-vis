@@ -282,7 +282,7 @@ d3.csv("fruts.csv", function(error, data){
 
   // Tooltip functions
   var showToolTip = function(self, d) {
-    var xPos = parseFloat(d3.select(self).attr("x")) + xScale.bandwidth() / 2;
+    var xPos = parseFloat(d3.select(self).attr("x")) + dScale.bandwidth() / 2;
     var yPos = parseFloat(d3.select(self).attr("y")) / 2 + height / 2;
 
     d3.select("#tooltip")
