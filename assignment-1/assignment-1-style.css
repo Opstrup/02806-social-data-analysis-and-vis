@@ -56,3 +56,13 @@
 .storage-veg {
   background-color: #e0e8ca;
 }
+
+.grid line {
+  stroke: lightgrey;
+  stroke-opacity: 0.7;
+  shape-rendering: crispEdges;
+}
+
+.grid path {
+  stroke-width: 0;
+}

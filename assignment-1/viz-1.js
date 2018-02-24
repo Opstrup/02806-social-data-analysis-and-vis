@@ -221,11 +221,24 @@ d3.csv("fruts.csv", function(error, data){
                 .scale(yScale)
                 .ticks(5);
 
+  // gridlines in y axis function
+  function make_y_gridlines() {
+    return d3.axisLeft(yScale)
+            .ticks(5)
+  }
+
   // Add svg to DOM
   var svg = d3.select("#viz-1")
               .append("svg")
               .attr("width", width)
               .attr("height", height);
+
+  // add the Y gridlines
+  svg.append("g")			
+    .attr("class", "grid")
+    .call(make_y_gridlines()
+      .tickSize(-width)
+      .tickFormat(""))
 
   // Adding the bars
   svg.selectAll("rect")
