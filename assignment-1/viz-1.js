@@ -20,7 +20,7 @@ d3.select("#fresh-fruit").
 
       var yAxis = d3.axisLeft()
                     .scale(yScale)
-                    .ticks(5);
+                    .ticks(10);
 
       // Update all the rects
       d3.select("#viz-1")
@@ -66,7 +66,7 @@ d3.select("#fresh-veg").
 
       var yAxis = d3.axisLeft()
                     .scale(yScale)
-                    .ticks(5);
+                    .ticks(10);
 
       // Update all the rects
       d3.select("#viz-1")
@@ -112,7 +112,7 @@ d3.select("#storage-fruit").
 
       var yAxis = d3.axisLeft()
                     .scale(yScale)
-                    .ticks(5);
+                    .ticks(10);
 
       // Update all the rects
       d3.select("#viz-1")
@@ -158,7 +158,7 @@ d3.select("#storage-veg").
 
       var yAxis = d3.axisLeft()
                     .scale(yScale)
-                    .ticks(5);
+                    .ticks(10);
 
       // Update all the rects
       d3.select("#viz-1")
