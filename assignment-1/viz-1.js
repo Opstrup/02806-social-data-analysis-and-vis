@@ -215,11 +215,11 @@ d3.csv("fruts.csv", function(error, data){
       return xScale(i);
     })
     .attr("y", function(d){
-      return yScale(d) - chartPadding;
+      return yScale(d);
     })
     .attr("width", width / ds.length - barPadding)
     .attr("height", function(d) {
-      return height - yScale(d);
+      return height - yScale(d) - chartPadding;
     })
     .attr("fill", function(d){
       return "rgb(0, 0, " + (d * 10) + ")";
