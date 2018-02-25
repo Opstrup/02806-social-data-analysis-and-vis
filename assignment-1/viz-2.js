@@ -67,9 +67,10 @@ d3.queue()
         .attr('cx', function(d) { return xScale2(d.Year); })
         .attr('cy', function(d) { return yScale2(d.Time); })
         .attr('r', function(d) { return 2; })
+        .attr('class', 'dpoint male')
         .style('fill', '#ed4630')
         
-    svg2.selectAll('.dpoint')
+    svg2.selectAll('path')
         .data(convertedDs2)
         .enter()
         .append('path')
@@ -77,6 +78,7 @@ d3.queue()
         .attr('transform', function(d) {
           return 'translate(' + xScale2(d.Year) + ',' + yScale2(d.Time) + ')';
         })
+        .attr('class', 'dpoint female')
         .style('fill', '#438e17')
 
     svg2.append("g")
