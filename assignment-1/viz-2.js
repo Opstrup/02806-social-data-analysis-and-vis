@@ -277,7 +277,7 @@ var maleOrFemale = function(self) {
   });
 }
 
-d3.selectAll('button')
+d3.selectAll('button.viz-2')
   .on('click', function() {
     if (this.id == 'both') {
       both();

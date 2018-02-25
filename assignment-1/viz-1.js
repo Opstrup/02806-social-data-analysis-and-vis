@@ -1,4 +1,4 @@
-d3.selectAll('button')
+d3.selectAll('button.viz-1')
   .on('click', function() {
     var self = this.id;
     d3.csv("fruts.csv", function(error, data){
