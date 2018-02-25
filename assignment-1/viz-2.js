@@ -60,7 +60,7 @@ d3.queue()
                 .scale(yScale2)
                 .ticks(10);
 
-    svg2.selectAll('.dpoint')
+    svg2.selectAll('circle')
         .data(convertedDs1)
         .enter()
         .append('circle')
@@ -90,4 +90,76 @@ d3.queue()
       .attr("class", "axis y-axis")
       .attr("transform", "translate(0,0)")
       .call(yAxis2);
+  })
+
+d3.selectAll('button')
+  .on('click', function() {
+    var csv = this.id + '.csv';
+    d3.csv(csv, function(error, data){
+
+      var color;
+      if (csv == 'men.csv')
+        color = '#ed4630';
+      else
+        color = '#438e17';
+
+      var ds = data
+        .filter(function(x) { if (x.Time != "TBD") return x; })
+        .map(function(x) {
+          var hour = Number(x.Time.substring(0,1));
+          var min = Number(x.Time.substring(2,4));
+          for (i = 0; i < hour; i++) {
+            min += 60;
+          }
+          x.Time = min;
+          x.Year = Number(x.Year);
+          return x;
+        });
+
+      // Setting up scalers
+      var yScale2 = d3.scaleLinear()
+                    .domain(d3.extent(ds, function(d) { return d.Time }))
+                    .rangeRound([height2, 0])
+
+      var xScale2 = d3.scaleLinear()
+                    .domain(d3.extent(ds, function(d) { return d.Year }))
+                    .rangeRound([0, width2]);
+
+      // Setting up axis
+      var xAxis2 = d3.axisBottom()
+                    .scale(xScale2);
+
+      var yAxis2 = d3.axisLeft()
+                    .scale(yScale2)
+                    .ticks(10);
+
+      var datapoint = svg2.selectAll('.dpoint').data(ds);
+      
+      datapoint.enter()
+        .append('circle')
+        .attr('cx', width2)
+        .attr('cy', function(d) { return yScale2(d.Time); })
+        .attr('r', function(d) { return 2; })
+        .merge(datapoint)
+        .transition()
+        .duration(1000)
+        .attr('cx', function(d) { return xScale2(d.Year); })
+        .attr('cy', function(d) { return yScale2(d.Time); })
+        .attr('r', function(d) { return 2; })
+        .attr('class', 'dpoint male')
+        .style('fill', color);
+
+      datapoint
+        .exit()
+        .transition()
+        .duration(500)
+        .attr('cx', width2 + 50)
+        .remove();
+
+      // Update y-axis
+      d3.select(".y-axis")
+        .transition()
+        .duration(500)
+        .call(yAxis2);
+    });
   })
