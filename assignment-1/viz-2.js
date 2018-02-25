@@ -1,4 +1,4 @@
-var margin = {top: 20, right:20, bottom: 50, left: 20};
+var margin = {top: 20, right:20, bottom: 50, left: 30};
 var height2 = 500 - margin.top - margin.bottom;
 var width2 = 800 - margin.right - margin.left;
 
@@ -70,8 +70,7 @@ var both = function() {
           .attr('cx', function(d) { return xScale2(d.Year); })
           .attr('cy', function(d) { return yScale2(d.Time); })
           .attr('r', function(d) { return 3; })
-          .attr('class', 'dpoint male')
-          .style('fill', '#ed4630')
+          .attr('class', 'dpoint men');
           
       svg2.selectAll('path')
           .data(convertedDs2)
@@ -81,8 +80,7 @@ var both = function() {
           .attr('transform', function(d) {
             return 'translate(' + xScale2(d.Year) + ',' + yScale2(d.Time) + ')';
           })
-          .attr('class', 'dpoint female')
-          .style('fill', '#438e17')
+          .attr('class', 'dpoint women');
 
       if (initDrawing) {
         initDrawing = false;
@@ -110,11 +108,12 @@ var maleOrFemale = function(self) {
   var csv = self.id + '.csv';
   d3.csv(csv, function(error, data){
 
-    var color;
-    if (csv == 'men.csv')
-      color = '#ed4630';
-    else
-      color = '#438e17';
+    var sex;
+    if (csv == 'men.csv') {
+      sex = 'men';
+    } else {
+      sex = 'women';
+    }
 
     var ds = data
       .filter(function(x) { if (x.Time != "TBD") return x; })
@@ -146,8 +145,7 @@ var maleOrFemale = function(self) {
       .attr('cx', function(d) { return xScale2(d.Year); })
       .attr('cy', function(d) { return yScale2(d.Time); })
       .attr('r', function(d) { return 3; })
-      .attr('class', 'dpoint')
-      .style('fill', color);
+      .attr('class', 'dpoint ' + sex);
 
     datapoint
       .exit()

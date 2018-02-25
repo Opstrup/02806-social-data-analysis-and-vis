@@ -77,3 +77,11 @@
 #viz-2 .dpoint:hover {
   fill: orange !important;
 }
+
+.women {
+  fill: #438e17;
+}
+
+.men {
+  fill: #ed4630;
+}
