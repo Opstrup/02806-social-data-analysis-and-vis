@@ -1,13 +1,32 @@
-var margin = {top: 20, right:20, bottom: 50, left: 30};
+var margin = {top: 20, right:20, bottom: 80, left: 50};
 var height2 = 500 - margin.top - margin.bottom;
 var width2 = 800 - margin.right - margin.left;
 
+// Draw svg
 var svg2 = d3.select("#viz-2")
             .append("svg")
             .attr("width", width2 + margin.left + margin.right)
             .attr("height", height2 + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+svg2.append("text")
+  .attr("transform", "translate(" + (width2 / 2) + ",0)")
+  .style("text-anchor", "middle")
+  .style("font-weight", "bold")
+  .text("Boston Marathon winning times");
+
+svg2.append("text")
+  .attr("transform", "translate(" + (width2 / 2) + "," + (height2 + 35) + ")")
+  .style("text-anchor", "middle")
+  .text("Years");
+
+svg2.append("text")
+  .attr("x", -(height2 / 2))
+  .attr("y", -30)
+  .attr("transform", "rotate(-90)")
+  .style("text-anchor", "middle")
+  .text("Time in minutes");
 
 // Setting up scalers
 var yScale2 = d3.scaleLinear()
@@ -23,6 +42,29 @@ var xAxis2 = d3.axisBottom()
 var yAxis2 = d3.axisLeft()
                .scale(yScale2)
                .ticks(10);
+
+// returns slope, intercept and r-square of the line
+var leastSquares = function(xSeries, ySeries) {
+  var reduceSumFunc = function(prev, cur) { return prev + cur; };
+  
+  var xBar = xSeries.reduce(reduceSumFunc) * 1.0 / xSeries.length;
+  var yBar = ySeries.reduce(reduceSumFunc) * 1.0 / ySeries.length;
+
+  var ssXX = xSeries.map(function(d) { return Math.pow(d - xBar, 2); })
+    .reduce(reduceSumFunc);
+  
+  var ssYY = ySeries.map(function(d) { return Math.pow(d - yBar, 2); })
+    .reduce(reduceSumFunc);
+    
+  var ssXY = xSeries.map(function(d, i) { return (d - xBar) * (ySeries[i] - yBar); })
+    .reduce(reduceSumFunc);
+    
+  var slope = ssXY / ssXX;
+  var intercept = yBar - (xBar * slope);
+  var rSquare = Math.pow(ssXY, 2) / (ssXX * ssYY);
+  
+  return [slope, intercept, rSquare];
+}
 
 var both = function() {
   d3.queue()
@@ -133,7 +175,7 @@ var maleOrFemale = function(self) {
     xScale2.domain(d3.extent(ds, function(d) { return d.Year }))
 
     var datapoint = svg2.selectAll('.dpoint').data(ds);
-    
+
     datapoint.enter()
       .append('circle')
       .attr('cx', width2)
@@ -159,6 +201,33 @@ var maleOrFemale = function(self) {
       .transition()
       .duration(500)
       .call(yAxis2);
+
+    // get the x and y values for least squares
+		var xLabels = ds.map(function(d) { return d.Year });
+		var xSeries = d3.range(1, xLabels.length + 1);
+		var ySeries = ds.map(function(d) { return parseFloat(d.Time); });
+		
+		var leastSquaresCoeff = leastSquares(xSeries, ySeries);
+		
+		// apply the reults of the least squares regression
+		var x1 = xLabels[0];
+		var y1 = leastSquaresCoeff[0] + leastSquaresCoeff[1];
+		var x2 = xLabels[xLabels.length - 1];
+		var y2 = leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1];
+		var trendData = [[x1,y1,x2,y2]];
+		
+		var trendline = svg2.selectAll(".trendline")
+			.data(trendData);
+			
+		trendline.enter()
+			.append("line")
+			.attr("class", "trendline")
+			.attr("x1", function(d) { return xScale2(d[0]); })
+			.attr("y1", function(d) { return yScale2(d[1]); })
+			.attr("x2", function(d) { return xScale2(d[2]); })
+			.attr("y2", function(d) { return yScale2(d[3]); })
+			.attr("stroke", "black")
+			.attr("stroke-width", 1);
 
     var line = d3.line()
                  .x(function(d) { return xScale2(d.Year) })
