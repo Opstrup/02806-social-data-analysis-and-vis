@@ -159,6 +159,19 @@ var maleOrFemale = function(self) {
       .transition()
       .duration(500)
       .call(yAxis2);
+
+    var line = d3.line()
+                 .x(function(d) { return xScale2(d.Year) })
+                 .y(function(d) { return yScale2(d.Time) })
+
+    svg2.append('path')
+        .datum(ds)
+        .attr('fill', 'none')
+        .attr('stroke', 'steelblue')
+        .attr('stroke-linejoin', 'round')
+        .attr('stroke-linecap', 'round')
+        .attr('stroke-width', 1.5)
+        .attr('d', line);
   });
 }
 
