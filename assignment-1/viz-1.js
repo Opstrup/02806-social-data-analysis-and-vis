@@ -58,10 +58,10 @@ d3.selectAll('button')
           break;
       }
       if (drawStacked) {
-        console.log('Stack that shit!');
+        console.log('Stack that shit!', ds);
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
-        yScale = d3.scaleLinear()
+        var yScale = d3.scaleLinear()
                   .domain([0, d3.max(ds, function(d) { 
                       return d3.max(d, function(d) {
                         return d[0] + d[1];
@@ -70,25 +70,20 @@ d3.selectAll('button')
                   ])
                   .rangeRound([height - chartPadding, chartPadding]);
 
-        var groups = d3.select('#viz-1')
-                       .selectAll("g")
-                       .data(ds)
-                       .enter()
-                       .append("g")
-                       .style("fill", function(d, i) {
-                         return color(i);
-                       });
-
-        var rects = groups.selectAll("rect")
-              .data(function(d) { return d; })
-              .enter()
-              .append("rect")
-              .attr("y", function(d) {
-                return yScale(d[0]);
-              })
-              .attr("height", function(d) {
-                return height - yScale(d[1]) - padding;
-              });
+        d3.select('#viz-1 svg')
+          .selectAll("g")
+          .data(ds)
+          .enter()
+          .append("g")
+          .style("fill", function(d, i) { return color(i); })
+            .selectAll("rect")
+            .data(function(d) { return d; })
+            .enter()
+            .append("rect")
+            .attr("y", function(d) { return yScale(d[0]); })
+            .attr("height", function(d) {
+              return height - (yScale(d[0]) - yScale(d[1])) - padding;
+            });
 
       } else {
         delete dsObj.Index;
