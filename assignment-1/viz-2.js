@@ -259,10 +259,22 @@ var maleOrFemale = function(self) {
 
 d3.selectAll('button.viz-2')
   .on('click', function() {
-    if (this.id == 'both') {
-      both();
-    } else {
-      maleOrFemale(this);
+    switch (this.id) {
+      case 'both':
+        both();
+        break;
+      case 'men': 
+        maleOrFemale(this);
+        break;
+      case 'women':
+        maleOrFemale(this);
+        break;
+      case 'path':
+        // Draw path here
+        break;
+      case 'fit':
+        // Draw fit straight-line here
+        break;
     }
   })
 
