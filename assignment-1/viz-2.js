@@ -78,6 +78,34 @@ var cleanData = function(ds) {
            });
 }
 
+var drawPath = function() {
+  if (togglePath) {
+    togglePath = !togglePath;
+    activeDataset.forEach(function(data) {
+      d3.csv(data, function(error, data) {
+        var ds = cleanData(data);
+        var line = d3.line()
+                      .x(function(d) { return xScale2(d.Year) })
+                      .y(function(d) { return yScale2(d.Time) })
+      
+          svg2.append('path')
+              .datum(ds)
+              .attr('fill', 'none')
+              .attr('stroke', 'steelblue')
+              .attr('stroke-linejoin', 'round')
+              .attr('stroke-linecap', 'round')
+              .attr('stroke-width', 1.5)
+              .attr('d', line)
+              .attr('class', 'c-line');
+      })
+    })
+  } else {
+    togglePath = !togglePath;
+    d3.selectAll('.c-line')
+      .remove();
+  }
+}
+
 // returns slope, intercept and r-square of the line
 var leastSquares = function(xSeries, ySeries) {
   var reduceSumFunc = function(prev, cur) { return prev + cur; };
@@ -215,45 +243,32 @@ var maleOrFemale = function(self) {
       .duration(500)
       .call(yAxis2);
 
-    // get the x and y values for least squares
-		var xLabels = ds.map(function(d) { return d.Year });
-		var xSeries = d3.range(1, xLabels.length + 1);
-		var ySeries = ds.map(function(d) { return parseFloat(d.Time); });
+    // // get the x and y values for least squares
+		// var xLabels = ds.map(function(d) { return d.Year });
+		// var xSeries = d3.range(1, xLabels.length + 1);
+		// var ySeries = ds.map(function(d) { return parseFloat(d.Time); });
 		
-		var leastSquaresCoeff = leastSquares(xSeries, ySeries);
+		// var leastSquaresCoeff = leastSquares(xSeries, ySeries);
 		
-		// apply the reults of the least squares regression
-		var x1 = xLabels[0];
-		var y1 = leastSquaresCoeff[0] + leastSquaresCoeff[1];
-		var x2 = xLabels[xLabels.length - 1];
-		var y2 = leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1];
-		var trendData = [[x1,y1,x2,y2]];
+		// // apply the reults of the least squares regression
+		// var x1 = xLabels[0];
+		// var y1 = leastSquaresCoeff[0] + leastSquaresCoeff[1];
+		// var x2 = xLabels[xLabels.length - 1];
+		// var y2 = leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1];
+		// var trendData = [[x1,y1,x2,y2]];
 		
-		var trendline = svg2.selectAll(".trendline")
-			.data(trendData);
+		// var trendline = svg2.selectAll(".trendline")
+		// 	.data(trendData);
 			
-		trendline.enter()
-			.append("line")
-			.attr("class", "trendline")
-			.attr("x1", function(d) { return xScale2(d[0]); })
-			.attr("y1", function(d) { return yScale2(d[1]); })
-			.attr("x2", function(d) { return xScale2(d[2]); })
-			.attr("y2", function(d) { return yScale2(d[3]); })
-			.attr("stroke", "black")
-			.attr("stroke-width", 1);
-
-    var line = d3.line()
-                 .x(function(d) { return xScale2(d.Year) })
-                 .y(function(d) { return yScale2(d.Time) })
-
-    svg2.append('path')
-        .datum(ds)
-        .attr('fill', 'none')
-        .attr('stroke', 'steelblue')
-        .attr('stroke-linejoin', 'round')
-        .attr('stroke-linecap', 'round')
-        .attr('stroke-width', 1.5)
-        .attr('d', line);
+		// trendline.enter()
+		// 	.append("line")
+		// 	.attr("class", "trendline")
+		// 	.attr("x1", function(d) { return xScale2(d[0]); })
+		// 	.attr("y1", function(d) { return yScale2(d[1]); })
+		// 	.attr("x2", function(d) { return xScale2(d[2]); })
+		// 	.attr("y2", function(d) { return yScale2(d[3]); })
+		// 	.attr("stroke", "black")
+		// 	.attr("stroke-width", 1);
   });
 }
 
@@ -261,16 +276,19 @@ d3.selectAll('button.viz-2')
   .on('click', function() {
     switch (this.id) {
       case 'both':
+        activeDataset = ['men.csv', 'women.csv']
         both();
         break;
       case 'men': 
+        activeDataset = ['men.csv']
         maleOrFemale(this);
         break;
       case 'women':
+        activeDataset = ['women.csv']
         maleOrFemale(this);
         break;
       case 'path':
-        // Draw path here
+        drawPath();
         break;
       case 'fit':
         // Draw fit straight-line here
@@ -279,5 +297,8 @@ d3.selectAll('button.viz-2')
   })
 
 // Draw both datasets as default
+var activeDataset = ['men.csv', 'women.csv']
 var initDrawing = true;
+var togglePath = true;
+var toggleStraightLine = true;
 both();
