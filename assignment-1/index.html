@@ -55,8 +55,9 @@
               <h2>Part 1: DAOST Chapter 2 Questions</h2>
               <ul>
                 <li>Explain in your own words the point of the jitter plot.</li>
-                <li class="answer">This is a answer</li>
+                <li class="answer">A jitter plot enables initial inspection of the overall structure of a dataset. The range of the dataset is revealed from the spread along the x-axis. The general distribution and possible clusters might be revealed from the “jitter” along the y-axis .</li>
                 <li>Explain in your own words the point of figure 2-3. (I'm going to skip saying "in your own words" going forward, but I hope you get the point; I expect all answers to be in your own words).</li>
+                <li class="answer">Figure 2-3 visualizes the importance of bin-anchor-points for a histogram. The upper histogram seems to indicate a dataset with a uniform distribution. By moving the bin-anchor-point 0.5 to the left, the bottom histogram displays a slightly different distribution, showing the importance of adjusting bin-anchor-points and not just bin-widths, when using histograms to inspect data distritbutions.</li>
                 <li>The author of DAOST (Philipp Janert) likes KDEs (and think they're better than histograms). And I don't. I didn't give a detailed explanation in the video, but now that works to my advantage. I'll ask you guys to think about this and thereby create an excellent exercise: When can KDEs be misleading?</li>
                 <li>I've discussed some strengths of the CDF - there are also weaknesses. Janert writes "[CDFs] have less intuitive appeal than histograms of KDEs". What does he mean by that?</li>
                 <li>What is a <em>Quantile plot</em>? What is it good for. </li>
@@ -122,8 +123,8 @@
                 If you miss the month of September, you might be behind the fruit curve, but there are plenty more months of vegetables left. &nbsp;The chart shows that fresh vegetables are available 9 out of 12 months, but fruit is only available 5 out of 12. Now if only we could quantify how delicious the produce is…&nbsp;
               </p>
               <div class="invisible" id="tooltip">
-                <p><strong>The value is</strong></p>
-                <p><span id="value"></span></p>
+                <h5>NYC Green Markets</h5>
+                <p># Unique produce: <span id="value"></span></p>
               </div>
               <hr>
             </div>

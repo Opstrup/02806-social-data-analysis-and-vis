@@ -79,7 +79,7 @@ d3.selectAll('button.viz-1')
             .selectAll("rect")
             .data(function(d) { 
               // TODO: check d here and pass the correct value
-              console.log(d);
+              console.log('hello');
               return d; })
             .enter()
             .append("rect")
