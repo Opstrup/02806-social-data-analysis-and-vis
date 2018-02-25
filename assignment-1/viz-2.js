@@ -110,31 +110,8 @@ var both = function() {
         console.log('Error with loading the cvs files', error);
       }
 
-      var convertedDs1 = ds1
-        .filter(function(x) { if (x.Time != "TBD") return x; })
-        .map(function(x) {
-          var hour = Number(x.Time.substring(0,1));
-          var min = Number(x.Time.substring(2,4));
-          for (i = 0; i < hour; i++) {
-            min += 60;
-          }
-          x.Time = min;
-          x.Year = Number(x.Year);
-          return x;
-        });
-  
-      var convertedDs2 = ds2
-        .filter(function(x) { if (x.Time != "TBD") return x; })
-        .map(function(x) {
-          var hour = Number(x.Time.substring(0,1));
-          var min = Number(x.Time.substring(2,4));
-          for (i = 0; i < hour; i++) {
-            min += 60;
-          }
-          x.Time = min;
-          x.Year = Number(x.Year);
-          return x;
-        });
+      var convertedDs1 = cleanData(ds1);
+      var convertedDs2 = cleanData(ds2);
 
       // Updating domain for scales
       yScale2.domain(d3.extent(convertedDs1, function(d) { return d.Time }))
