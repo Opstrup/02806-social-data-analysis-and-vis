@@ -10,6 +10,7 @@ var svg2 = d3.select("#viz-2")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+// Draw axes labels
 svg2.append("text")
   .attr("transform", "translate(" + (width2 / 2) + ",0)")
   .style("text-anchor", "middle")
@@ -59,7 +60,6 @@ var showToolTip2 = function(self, d) {
 
   d3.select("#tooltip2").classed("invisible", false);
 }
-
 var hideToolTip2 = function() {
   d3.select("#tooltip2").classed("invisible", true);
 }
@@ -102,6 +102,49 @@ var drawPath = function() {
   } else {
     togglePath = !togglePath;
     d3.selectAll('.c-line')
+      .remove();
+  }
+}
+
+var drawStraightLine = function() {
+  if (toggleStraightLine) {
+    toggleStraightLine = !toggleStraightLine;
+    activeDataset.forEach(function(data) {
+      var sex = data;
+      d3.csv(data, function(error, data) {
+        var ds = cleanData(data);
+
+        // get the x and y values for least squares
+        var xLabels = ds.map(function(d) { return d.Year });
+        var xSeries = d3.range(1, xLabels.length + 1);
+        var ySeries = ds.map(function(d) { return parseFloat(d.Time); });
+        
+        var leastSquaresCoeff = leastSquares(xSeries, ySeries);
+        
+        // apply the reults of the least squares regression
+        var x1 = xLabels[0];
+        var y1 = leastSquaresCoeff[0] + leastSquaresCoeff[1];
+        var x2 = xLabels[xLabels.length - 1];
+        var y2 = leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1];
+        var trendData = [[x1,y1,x2,y2]];
+        
+        var trendline = svg2.selectAll(".trendline." + sex)
+          .data(trendData);
+          
+        trendline.enter()
+          .append("line")
+          .attr("class", "trendline " + sex)
+          .attr("x1", function(d) { return xScale2(d[0]); })
+          .attr("y1", function(d) { return yScale2(d[1]); })
+          .attr("x2", function(d) { return xScale2(d[2]); })
+          .attr("y2", function(d) { return yScale2(d[3]); })
+          .attr("stroke", "black")
+          .attr("stroke-width", 1);
+      })
+    })
+  } else {
+    toggleStraightLine = !toggleStraightLine;
+    d3.selectAll('.trendline')
       .remove();
   }
 }
@@ -242,33 +285,6 @@ var maleOrFemale = function(self) {
       .transition()
       .duration(500)
       .call(yAxis2);
-
-    // // get the x and y values for least squares
-		// var xLabels = ds.map(function(d) { return d.Year });
-		// var xSeries = d3.range(1, xLabels.length + 1);
-		// var ySeries = ds.map(function(d) { return parseFloat(d.Time); });
-		
-		// var leastSquaresCoeff = leastSquares(xSeries, ySeries);
-		
-		// // apply the reults of the least squares regression
-		// var x1 = xLabels[0];
-		// var y1 = leastSquaresCoeff[0] + leastSquaresCoeff[1];
-		// var x2 = xLabels[xLabels.length - 1];
-		// var y2 = leastSquaresCoeff[0] * xSeries.length + leastSquaresCoeff[1];
-		// var trendData = [[x1,y1,x2,y2]];
-		
-		// var trendline = svg2.selectAll(".trendline")
-		// 	.data(trendData);
-			
-		// trendline.enter()
-		// 	.append("line")
-		// 	.attr("class", "trendline")
-		// 	.attr("x1", function(d) { return xScale2(d[0]); })
-		// 	.attr("y1", function(d) { return yScale2(d[1]); })
-		// 	.attr("x2", function(d) { return xScale2(d[2]); })
-		// 	.attr("y2", function(d) { return yScale2(d[3]); })
-		// 	.attr("stroke", "black")
-		// 	.attr("stroke-width", 1);
   });
 }
 
@@ -291,7 +307,7 @@ d3.selectAll('button.viz-2')
         drawPath();
         break;
       case 'fit':
-        // Draw fit straight-line here
+        drawStraightLine();
         break;
     }
   })
