@@ -77,7 +77,10 @@ d3.selectAll('button')
           .append("g")
           .style("fill", function(d, i) { return color(i); })
             .selectAll("rect")
-            .data(function(d) { return d; })
+            .data(function(d) { 
+              // TODO: check d here and pass the correct value
+              console.log(d);
+              return d; })
             .enter()
             .append("rect")
             .attr("y", function(d) { return yScale(d[0]); })
