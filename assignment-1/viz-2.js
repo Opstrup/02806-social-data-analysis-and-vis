@@ -45,14 +45,7 @@ var yAxis2 = d3.axisLeft()
 
 // Tooltip functions
 var showToolTip2 = function(self, d) {
-  console.log(self.cx);
-  console.log(self.cy);
-  var xPos = parseFloat(d3.select(self).attr("x"));
-  var yPos = parseFloat(d3.select(self).attr("y"));
-
   d3.select("#tooltip2")
-    .style("left", xPos + "px")
-    .style("top", yPos + "px")
     .select("#year")
     .text(d.Year);
   
