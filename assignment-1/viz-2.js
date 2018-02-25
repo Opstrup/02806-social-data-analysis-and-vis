@@ -32,7 +32,7 @@ var both = function() {
       if (error) {
         console.log('Error with loading the cvs files', error);
       }
-  
+
       var convertedDs1 = ds1
         .filter(function(x) { if (x.Time != "TBD") return x; })
         .map(function(x) {
@@ -83,16 +83,26 @@ var both = function() {
           })
           .attr('class', 'dpoint female')
           .style('fill', '#438e17')
-  
-      svg2.append("g")
-      .attr("class", "axis2")
-      .attr("transform", "translate(0," + height2 + ")")
-      .call(xAxis2);
-  
-      svg2.append("g")
-        .attr("class", "axis y-axis2")
-        .attr("transform", "translate(0,0)")
-        .call(yAxis2);
+
+      if (initDrawing) {
+        initDrawing = false;
+        // Draw axis
+        svg2.append("g")
+        .attr("class", "axis2")
+        .attr("transform", "translate(0," + height2 + ")")
+        .call(xAxis2);
+    
+        svg2.append("g")
+          .attr("class", "axis y-axis2")
+          .attr("transform", "translate(0,0)")
+          .call(yAxis2);
+      } else {
+        // Update y-axis
+        d3.select(".y-axis2")
+          .transition()
+          .duration(500)
+          .call(yAxis2);
+      }
     })
 }
 
@@ -164,4 +174,5 @@ d3.selectAll('button')
   })
 
 // Draw both datasets as default
+var initDrawing = true;
 both();
