@@ -43,6 +43,34 @@ var yAxis2 = d3.axisLeft()
                .scale(yScale2)
                .ticks(10);
 
+// Tooltip functions
+var showToolTip2 = function(self, d) {
+  console.log(self.cx);
+  console.log(self.cy);
+  var xPos = parseFloat(d3.select(self).attr("x"));
+  var yPos = parseFloat(d3.select(self).attr("y"));
+
+  d3.select("#tooltip2")
+    .style("left", xPos + "px")
+    .style("top", yPos + "px")
+    .select("#year")
+    .text(d.Year);
+  
+  d3.select("#tooltip2")
+    .select("#time")
+    .text(d.Time);
+  
+  d3.select("#tooltip2")
+    .select("#name")
+    .text(d.Athlete);
+
+  d3.select("#tooltip2").classed("invisible", false);
+}
+
+var hideToolTip2 = function() {
+  d3.select("#tooltip2").classed("invisible", true);
+}
+
 // returns slope, intercept and r-square of the line
 var leastSquares = function(xSeries, ySeries) {
   var reduceSumFunc = function(prev, cur) { return prev + cur; };
@@ -112,7 +140,13 @@ var both = function() {
           .attr('cx', function(d) { return xScale2(d.Year); })
           .attr('cy', function(d) { return yScale2(d.Time); })
           .attr('r', function(d) { return 3; })
-          .attr('class', 'dpoint men');
+          .attr('class', 'dpoint men')
+          .on("mouseover", function(d) {
+            showToolTip2(this, d);
+          })
+          .on("mouseout", function() {
+            hideToolTip2();
+          });
           
       svg2.selectAll('path')
           .data(convertedDs2)
@@ -122,7 +156,13 @@ var both = function() {
           .attr('transform', function(d) {
             return 'translate(' + xScale2(d.Year) + ',' + yScale2(d.Time) + ')';
           })
-          .attr('class', 'dpoint women');
+          .attr('class', 'dpoint women')
+          .on("mouseover", function(d) {
+            showToolTip2(this, d);
+          })
+          .on("mouseout", function() {
+            hideToolTip2();
+          });
 
       if (initDrawing) {
         initDrawing = false;
