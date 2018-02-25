@@ -64,6 +64,20 @@ var hideToolTip2 = function() {
   d3.select("#tooltip2").classed("invisible", true);
 }
 
+var cleanData = function(ds) {
+  return ds.filter(function(x) { if (x.Time != "TBD") return x; })
+           .map(function(x) {
+             var hour = Number(x.Time.substring(0,1));
+             var min = Number(x.Time.substring(2,4));
+             for (i = 0; i < hour; i++) {
+               min += 60;
+             }
+             x.Time = min;
+             x.Year = Number(x.Year);
+             return x;
+           });
+}
+
 // returns slope, intercept and r-square of the line
 var leastSquares = function(xSeries, ySeries) {
   var reduceSumFunc = function(prev, cur) { return prev + cur; };
@@ -190,18 +204,7 @@ var maleOrFemale = function(self) {
       sex = 'women';
     }
 
-    var ds = data
-      .filter(function(x) { if (x.Time != "TBD") return x; })
-      .map(function(x) {
-        var hour = Number(x.Time.substring(0,1));
-        var min = Number(x.Time.substring(2,4));
-        for (i = 0; i < hour; i++) {
-          min += 60;
-        }
-        x.Time = min;
-        x.Year = Number(x.Year);
-        return x;
-      });
+    var ds = cleanData(data);
 
     // Updating domain for scales
     yScale2.domain(d3.extent(ds, function(d) { return d.Time }))
