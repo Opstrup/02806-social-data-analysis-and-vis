@@ -8,8 +8,6 @@ d3.selectAll('button.viz-1')
 
       var dsObj, barColor, stack;
       var drawStacked = false;
-      d3.selectAll("#viz-1 .stacked")
-        .remove();
 
       switch (self) {
         case 'fresh-fruit':
@@ -157,19 +155,24 @@ d3.selectAll('button.viz-1')
             .tickFormat(""))
   
         // Update all the rects
-        d3.select("#viz-1")
-          .selectAll("rect")
-          .data(ds)
+        var datapoint = d3.selectAll('#viz-1 rect').data(ds);
+
+        datapoint.enter()
+          .append('rect')
+          .merge(datapoint)
           .transition()
           .duration(1000)
-          .attr("y", function(d){
-            return yScale(d);
-          })
-          .attr("height", function(d) {
-            return height - yScale(d) - chartPadding;
-          })
+          .attr("y", function(d){ return yScale(d); })
+          .attr("height", function(d) { return height - yScale(d) - chartPadding; })
           .attr("fill", barColor);
-  
+    
+        datapoint
+          .exit()
+          .transition()
+          .duration(500)
+          .attr('fill-opacity', 0)
+          .remove();
+
         // Update y-axis
         d3.select(".y-axis")
           .transition()
