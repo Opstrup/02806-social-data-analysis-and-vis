@@ -73,8 +73,8 @@ d3.selectAll('button.viz-1')
                  .rangeRound([chartPadding, width - chartPadding]);
 
         var yScale = d3.scaleLinear()
-                  .domain([0, d3.max(ds, function(d) { 
-                      return d3.max(d, function(d) {
+                  .domain([0, d3.max(ds, function(d) {
+                    return d3.max(d, function(d) {
                         return d[0] + d[1];
                       }); 
                     })
@@ -93,11 +93,11 @@ d3.selectAll('button.viz-1')
             .enter()
             .append("rect")
             .attr("x", function(d, i) {
-              return dScale(months[i]);
+              return dScale(months[i]) + (barPadding / 2);
             })
-            .attr("y", function(d) { return yScale(d[0]); })
+            .attr("y", function(d) { return yScale(d[1]); })
             .attr("height", function(d) {
-              return height - (yScale(d[0]) - yScale(d[1])) - chartPadding;
+              return (yScale(d[0]) - yScale(d[1]));
             })
             .attr("width", dScale.bandwidth() - barPadding);
 
