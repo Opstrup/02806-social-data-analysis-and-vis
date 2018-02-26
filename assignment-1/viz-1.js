@@ -54,7 +54,7 @@ d3.selectAll('button.viz-1')
 
           barColor = '#e0e8ca';
           var zScale = d3.scaleOrdinal()
-                         .range(["#dfe8ca", "#008d14", "#ff9ea1", "#ff2a1a"]);
+                         .range(["#ff2a1a", "#ff9ea1", "#008d14", "#dfe8ca"]);
           
           stack = d3.stack()
                     .keys(['Harvest fruits', 'Storage fruits',
@@ -65,7 +65,6 @@ d3.selectAll('button.viz-1')
       }
 
       if (drawStacked) {
-        console.log('Stack that shit!', ds);
         var color = d3.scaleOrdinal(d3.schemeCategory10);
 
         var dScale = d3.scaleBand()
