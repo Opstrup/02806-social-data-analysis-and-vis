@@ -26,6 +26,9 @@ d3.selectAll('button.viz-1')
           barColor = '#e0e8ca';
           break;
         case 'stack':
+          d3.selectAll("#viz-1 rect")
+            .remove();
+
           drawStacked = true;
 
           // prepare dataset
@@ -50,16 +53,24 @@ d3.selectAll('button.viz-1')
           }
 
           barColor = '#e0e8ca';
-
+          var zScale = d3.scaleOrdinal()
+                         .range(["#dfe8ca", "#008d14", "#ff9ea1", "#ff2a1a"]);
+          
           stack = d3.stack()
                     .keys(['Harvest fruits', 'Storage fruits',
                            'Harvest vegetables', 'Storage vegetables']);
-          ds = stack(res);
+
+          var ds = stack(res);
           break;
       }
+
       if (drawStacked) {
         console.log('Stack that shit!', ds);
         var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+        var dScale = d3.scaleBand()
+                 .domain(months)
+                 .rangeRound([chartPadding, width - chartPadding]);
 
         var yScale = d3.scaleLinear()
                   .domain([0, d3.max(ds, function(d) { 
@@ -70,21 +81,25 @@ d3.selectAll('button.viz-1')
                   ])
                   .rangeRound([height - chartPadding, chartPadding]);
 
-        var groups = d3.select('#viz-1 svg')
+        d3.select('#viz-1 svg')
+          .append("g")
           .selectAll("g")
           .data(ds)
           .enter()
           .append("g")
-          .style("fill", function(d, i) { return color(i); })
-            
-        var rects =  groups.selectAll("rect")
+          .style("fill", function(d, i) { return zScale(i); })
+            .selectAll("rect")
             .data(function(d) { return d; })
             .enter()
             .append("rect")
+            .attr("x", function(d, i) {
+              return dScale(months[i]);
+            })
             .attr("y", function(d) { return yScale(d[0]); })
             .attr("height", function(d) {
-              return height - (yScale(d[0]) - yScale(d[1])) - padding;
-            });
+              return height - (yScale(d[0]) - yScale(d[1])) - chartPadding;
+            })
+            .attr("width", dScale.bandwidth() - barPadding);
 
       } else {
         delete dsObj.Index;
