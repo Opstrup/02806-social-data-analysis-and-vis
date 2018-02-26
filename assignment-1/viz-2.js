@@ -223,12 +223,12 @@ var both = function() {
         initDrawing = false;
         // Draw axis
         svg2.append("g")
-        .attr("class", "axis2")
+        .attr("class", "axis2 x-axis2")
         .attr("transform", "translate(0," + height2 + ")")
         .call(xAxis2);
     
         svg2.append("g")
-          .attr("class", "axis y-axis2")
+          .attr("class", "axis2 y-axis2")
           .attr("transform", "translate(0,0)")
           .call(yAxis2);
       } else {
@@ -280,11 +280,16 @@ var maleOrFemale = function(self) {
       .attr('cx', width2 + 50)
       .remove();
 
-    // Update y-axis
+    // Update axis
     d3.select(".y-axis2")
       .transition()
       .duration(500)
       .call(yAxis2);
+
+    d3.select(".x-axis2")
+      .transition()
+      .duration(500)
+      .call(xAxis2);
   });
 }
 
