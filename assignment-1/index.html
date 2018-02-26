@@ -59,12 +59,19 @@
                 <li>Explain in your own words the point of figure 2-3. (I'm going to skip saying "in your own words" going forward, but I hope you get the point; I expect all answers to be in your own words).</li>
                 <li class="answer">Figure 2-3 visualizes the importance of bin-anchor-points for a histogram. The upper histogram seems to indicate a dataset with a uniform distribution. By moving the bin-anchor-point 0.5 to the left, the bottom histogram displays a slightly different distribution, showing the importance of adjusting bin-anchor-points and not just bin-widths, when using histograms to inspect data distritbutions.</li>
                 <li>The author of DAOST (Philipp Janert) likes KDEs (and think they're better than histograms). And I don't. I didn't give a detailed explanation in the video, but now that works to my advantage. I'll ask you guys to think about this and thereby create an excellent exercise: When can KDEs be misleading?</li>
+                <li class="answer">If either a too wide or too narrow bandwidth has been chosen</li>
                 <li>I've discussed some strengths of the CDF - there are also weaknesses. Janert writes "[CDFs] have less intuitive appeal than histograms of KDEs". What does he mean by that?</li>
+                <li class="answer">A histogram or KDE gives a quick overview of the data distribution and it is easy to quickly identify the x-values at which clusters or peaks in the data appears. Humans do not think cumulatively, which is why the CDF has less intuitive appeal.</li>
                 <li>What is a <em>Quantile plot</em>? What is it good for. </li>
+                <li class="answer">A quantile plot is a CDF with the axes switched, and thus makes it easy to inspect the percentiles of the data. The value observed at the k-th percentile indicates that k percent of the data points fall below this value.</li>
                 <li>How is a <em>Probablity plot</em> defined? What is it useful for? Have you ever seen one before?</li>
+                <li class="answer">A probability plot can be used to determine whether a dataset follows a certain distribution, such as the normal/gaussian distribution, or not. If a dataset follows the given distribution, the datapoints will fall on a straight in the probability plot. Never seen it before.</li>
                 <li>One of the reasons I like DAOST is that Janert is so suspicious of mean, median, and related summary statistics. Explain why one has to be careful when using those - and why visualization of the full data is always better. </li>
+                <li class="answer">The mean is very sensitive to outliers. A single datapoint that deviates by a large amount from the rest of the dataset can “pull’ the mean away from the mean fo the the rest of the dataset. Median? Summary statistics might give a wrong impresion of the data without further investigation.  A visualization gives a better overview and understanding of the dataset.</li>
                 <li>I love box plots. When are box plots most useful?</li>
+                <li class="answer">Boxplots give a quick overviews  of the quartiles of a dataset as well as possible outliers. Boxplots are also convenient when making a quick comparison of different datasets.</li>
                 <li>The book doesn't mention <a href="https://en.wikipedia.org/wiki/Violin_plot">violin plots</a>. Are those better or worse than box plots? Why?</li>
+                <li class="answer">A violin plot displays summary statistics as well as the complete distribution of the data, while a boxplot only displays summary statistics. This might be useful if a dataset has multiple peaks.</li>
               </ul>
               <hr>
             </div>
@@ -75,14 +82,25 @@
               <h2>Part 2: DAOST Chapter 3 Questions</h2>
               <ul>
                 <li>Looking at Fig 3-1, Janert writes "the data itself shows clearly that the amount of random noise in the data is small". What do you think his argument is?</li>
+                <li class="answer">It is easy to draw a line through each successive datapoint without any “wiggling”.</li>
                 <li>Can you think of a real-world example of a multivariate relationship like the one in Fig 3-3 (lower right panel)?</li>
                 <li>What are the two methods Janert metions for smoothing noisy data? Can you think of other ones?</li>
+                <li class="answer">Weighted splines and LOESS</li>
                 <li>What are residuals? Why is it a good idea to plot the residuals of your fit?</li>
+                <li class="answer">Residuals are the amount of deviation of each datapoint from the computed model/fit. It is a good idea to plot the residuals of a fit/model in order to inspect whether the residuals display any trend/structure, because if this is the case, the computed model does not adequately describe the data</li>
                 <li>Explain in your own words the point of the smooth tube in figure 3-7.</li>
+                <li class="answer">The “smooth tube” visualizes the residuals and thus describes the confidence of the smoothed representation of the data, such that a wide “tube” indicates low confidence, and a narrow tube indicates high confidence i.e. more points lie close to the smoothed representation.</li>
                 <li>What kind of relationships will a semi-log plot help you discover?</li>
+                <li class="answer">An exponential relationship between x and y values is revealed as a straight line in a semi-logy plot.</li>
                 <li>What kind of functions will loglog plots help you see?</li>
+                <li class="answer">Power law relationship between x and y.</li>
                 <li>What the h#ll is <em>banking</em> and what element from our visual system does it use to help us see patterns? What are potential problems with banking?</li>
+                <li class="answer">
+                  Banking adjusts the slope of a curve to 45 degrees, because this angle makes it easier to detect change (compared almost completely horizontal or vertical lines). Banking achieves this angle by adjusting the aspect ratio between the x and y axis.
+                  One of the problems of using banking, is that if the aspect ratio needed to obtain the slope of 45 degrees is very skewed, one axis might become very small compared to other one, making it harder to read any information from it. Janert suggest rethinking the graph in this case.
+                </li>
                 <li>I think figure 3-14 makes an important point about linear fits that is rarely made. What is it? </li>
+                <li class="answer">When computing a model/fit for some data, the best fit depends on which part of the data that is considered to be the input and which is considered to be the response.</li>
                 <li>Summarize the discussion of <em>Graphical Analysis</em> and <em>Presentation Graphics</em> on pp. 68-69 in your own words.</li>
               </ul>
               <hr>

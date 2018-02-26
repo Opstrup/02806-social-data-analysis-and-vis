@@ -70,17 +70,15 @@ d3.selectAll('button.viz-1')
                   ])
                   .rangeRound([height - chartPadding, chartPadding]);
 
-        d3.select('#viz-1 svg')
+        var groups = d3.select('#viz-1 svg')
           .selectAll("g")
           .data(ds)
           .enter()
           .append("g")
           .style("fill", function(d, i) { return color(i); })
-            .selectAll("rect")
-            .data(function(d) { 
-              // TODO: check d here and pass the correct value
-              console.log('hello');
-              return d; })
+            
+        var rects =  groups.selectAll("rect")
+            .data(function(d) { return d; })
             .enter()
             .append("rect")
             .attr("y", function(d) { return yScale(d[0]); })
