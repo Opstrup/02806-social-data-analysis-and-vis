@@ -8,6 +8,9 @@ d3.selectAll('button.viz-1')
 
       var dsObj, barColor, stack;
       var drawStacked = false;
+      d3.selectAll("#viz-1 .stacked")
+        .remove();
+
       switch (self) {
         case 'fresh-fruit':
           dsObj = data[0];
@@ -26,10 +29,9 @@ d3.selectAll('button.viz-1')
           barColor = '#e0e8ca';
           break;
         case 'stack':
+          drawStacked = true;
           d3.selectAll("#viz-1 rect")
             .remove();
-
-          drawStacked = true;
 
           // prepare dataset
           dsObj = data.filter(function(x) {
@@ -80,8 +82,13 @@ d3.selectAll('button.viz-1')
                   ])
                   .rangeRound([height - chartPadding, chartPadding]);
 
+        var yAxis = d3.axisLeft()
+                      .scale(yScale)
+                      .ticks(10);
+
         d3.select('#viz-1 svg')
           .append("g")
+          .attr('class', 'stacked')
           .selectAll("g")
           .data(ds)
           .enter()
@@ -99,6 +106,25 @@ d3.selectAll('button.viz-1')
               return (yScale(d[0]) - yScale(d[1]));
             })
             .attr("width", dScale.bandwidth() - barPadding);
+
+        function make_y_gridlines() {
+          return d3.axisLeft(yScale)
+                    .ticks(5);
+        }
+
+        // Update Y gridlines
+        d3.select(".grid")
+          .transition()
+          .duration(500)
+          .call(make_y_gridlines()
+            .tickSize(-(width - (chartPadding * 2)))
+            .tickFormat(""))
+
+        // Update y-axis
+        d3.select(".y-axis")
+        .transition()
+        .duration(500)
+        .call(yAxis);
 
       } else {
         delete dsObj.Index;
