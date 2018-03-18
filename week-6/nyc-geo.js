@@ -1,12 +1,12 @@
 //Width and height
-var nycWidth = 700;
-var nycHeight = 500;
+var nycWidth = 900;
+var nycHeight = 700;
 var boroughsColors = colorbrewer.YlGn[5];
 
 //Define map projection
 var nycProjection = d3.geoMercator()
                       .center([-73.94, 40.70])
-                      .scale(50000)
+                      .scale(70000)
                       .translate([nycWidth/2, nycHeight/2]);
 
 //Define default path generator
@@ -32,4 +32,21 @@ d3.json("boroughs.json", function(json) {
         })
         .style("stroke", "white");
 
+  //Load nyc_murders data
+  d3.csv('nyc_murders.csv', function(data){
+
+    nycSvg.selectAll('circle')
+          .data(data)
+          .enter()
+          .append('circle')
+          .attr('cx', function(d) {
+            return nycProjection([d.Longitude, d.Latitude])[0];
+          })
+          .attr('cy', function(d) {
+            return nycProjection([d.Longitude, d.Latitude])[1];
+          })
+          .attr('r', '3')
+          .style('fill', 'red')
+          .style("opacity", 0.75);
+  });
 });
