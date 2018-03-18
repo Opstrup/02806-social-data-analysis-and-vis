@@ -19,6 +19,13 @@ var nycSvg = d3.select('.nyc-geo')
                .attr('width', nycWidth)
                .attr('height', nycHeight);
 
+//Converting the murder data points to bar chart frendly data
+var convertMurders = function(data) {
+  var ds = data.map(function(d) { return d.CMPLNT_FR_TM.substr(0,2) + ':00' })
+               .reduce(function(acc, val) { return acc.set(val, 1 + (acc.get(val) || 0)) }, new Map());
+  return ds;
+}
+
 //Load in boroughs map data
 d3.json('boroughs.json', function(json) {
 
@@ -39,8 +46,8 @@ d3.json('boroughs.json', function(json) {
         .enter()
         .append('text')
         .attr('transform', function (d) { return 'translate(' + nycPath.centroid(d) + ')'; })
-        .attr('dx', '0')
-        .attr('dy', '0.35em')
+        .style("text-anchor", "middle")
+        .style("font-weight", "bold")
         .text(function (d) { return d.properties.BoroName; });
 
   //Load nyc_murders data
@@ -60,5 +67,28 @@ d3.json('boroughs.json', function(json) {
           .attr('r', '3')
           .style('fill', 'red')
           .style('opacity', 0.75);
+
+    var ds = convertMurders(data)
+    console.log(ds)
+
+    // Setting up scalers
+    // var yScale = d3.scaleLinear()
+    //                .domain([0, d3.max(ds, function(d) { 
+    //                  return d; 
+    //                })])
+    //                .rangeRound([height - chartPadding, chartPadding])
+
+    // // Setting up axis
+    // var dScale = d3.scaleBand()
+    //               .domain(months)
+    //               .rangeRound([chartPadding, width - chartPadding]);
+
+    // var xAxis = d3.axisBottom()
+    //               .scale(dScale);
+
+    // var yAxis = d3.axisLeft()
+    //               .scale(yScale)
+    //               .ticks(10);
+
   });
 });
