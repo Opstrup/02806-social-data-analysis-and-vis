@@ -14,27 +14,39 @@ var nycPath = d3.geoPath()
                 .projection(nycProjection);
 
 //Create SVG element
-var nycSvg = d3.select(".nyc-geo")
-               .append("svg")
-               .attr("width", nycWidth)
-               .attr("height", nycHeight);
+var nycSvg = d3.select('.nyc-geo')
+               .append('svg')
+               .attr('width', nycWidth)
+               .attr('height', nycHeight);
 
 //Load in boroughs map data
-d3.json("boroughs.json", function(json) {
+d3.json('boroughs.json', function(json) {
 
+  //Drawing boroughs
   nycSvg.selectAll('path')
         .data(json.features)
         .enter()
         .append('path')
         .attr('d', nycPath)
-        .style("fill", function(d, i) {
+        .style('fill', function(d, i) {
           return boroughsColors[i];
         })
-        .style("stroke", "white");
+        .style('stroke', 'white');
+
+  //Writing borough names
+  nycSvg.selectAll('text')
+        .data(json.features)
+        .enter()
+        .append('text')
+        .attr('transform', function (d) { return 'translate(' + nycPath.centroid(d) + ')'; })
+        .attr('dx', '0')
+        .attr('dy', '0.35em')
+        .text(function (d) { return d.properties.BoroName; });
 
   //Load nyc_murders data
   d3.csv('nyc_murders.csv', function(data){
 
+    //Adding donts for murders
     nycSvg.selectAll('circle')
           .data(data)
           .enter()
@@ -47,6 +59,6 @@ d3.json("boroughs.json", function(json) {
           })
           .attr('r', '3')
           .style('fill', 'red')
-          .style("opacity", 0.75);
+          .style('opacity', 0.75);
   });
 });
