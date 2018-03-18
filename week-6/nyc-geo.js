@@ -1,6 +1,7 @@
 //Width and height
 var nycWidth = 700;
 var nycHeight = 500;
+var boroughsColors = colorbrewer.YlGn[5];
 
 //Define map projection
 var nycProjection = d3.geoMercator()
@@ -26,7 +27,9 @@ d3.json("boroughs.json", function(json) {
         .enter()
         .append('path')
         .attr('d', nycPath)
-        .style("fill", "steelblue")
+        .style("fill", function(d, i) {
+          return boroughsColors[i];
+        })
         .style("stroke", "white");
 
 });
