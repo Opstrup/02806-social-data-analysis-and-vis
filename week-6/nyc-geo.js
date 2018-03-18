@@ -91,5 +91,22 @@ d3.json('boroughs.json', function(json) {
     yScale.domain([0, d3.max(ds, function(d) { return d; })]);
     xScale.domain(ds.keys())
 
+    // Adding the bars
+    nycSvg.selectAll("rect")
+          .data(ds)
+          .enter()
+          .append("rect")
+          .attr("x", function(d, i) {
+            return xScale(ds.get(i)) + (barPadding / 2);
+          })
+          .attr("y", function(d){
+            return yScale(d);
+          })
+          .attr("height", function(d) {
+            return nycHeight - yScale(d) - chartPadding;
+          })
+          .attr("width", nycWidth / ds.size - barPadding)
+          .attr("fill", "#ed4630");
+
   });
 });
