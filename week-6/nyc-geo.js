@@ -2,12 +2,29 @@
 var nycWidth = 900;
 var nycHeight = 700;
 var boroughsColors = colorbrewer.YlGn[5];
+var barPadding = 15;
+var chartPadding = 50;
 
 //Define map projection
 var nycProjection = d3.geoMercator()
                       .center([-73.94, 40.70])
                       .scale(70000)
                       .translate([nycWidth/2, nycHeight/2]);
+
+// Setting up scalers
+var yScale = d3.scaleLinear()
+               .rangeRound([nycHeight - chartPadding, chartPadding])
+
+var xScale = d3.scaleBand()
+               .rangeRound([chartPadding, nycWidth - chartPadding]);
+
+// Setting up axis
+var xAxis = d3.axisBottom()
+              .scale(xScale);
+
+var yAxis = d3.axisLeft()
+              .scale(yScale)
+              .ticks(10);
 
 //Define default path generator
 var nycPath = d3.geoPath()
@@ -69,26 +86,10 @@ d3.json('boroughs.json', function(json) {
           .style('opacity', 0.75);
 
     var ds = convertMurders(data)
-    console.log(ds)
 
-    // Setting up scalers
-    // var yScale = d3.scaleLinear()
-    //                .domain([0, d3.max(ds, function(d) { 
-    //                  return d; 
-    //                })])
-    //                .rangeRound([height - chartPadding, chartPadding])
-
-    // // Setting up axis
-    // var dScale = d3.scaleBand()
-    //               .domain(months)
-    //               .rangeRound([chartPadding, width - chartPadding]);
-
-    // var xAxis = d3.axisBottom()
-    //               .scale(dScale);
-
-    // var yAxis = d3.axisLeft()
-    //               .scale(yScale)
-    //               .ticks(10);
+    // Updating scalers
+    yScale.domain([0, d3.max(ds, function(d) { return d; })]);
+    xScale.domain(ds.keys())
 
   });
 });
