@@ -3,3 +3,18 @@
   font-style: italic;
   list-style: none;
 }
+
+#timeline .line {
+  fill: none;
+  stroke: steelblue;
+}
+
+#timeline .area {
+  fill: steelblue;
+}
+
+#timeline .attention {
+  background: yellow;
+  margin: -4px;
+  padding: 4px;
+}
