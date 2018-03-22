@@ -1,7 +1,7 @@
 //Width and height
 var width = 900;
 var height = 700;
-var boroughsColors = colorbrewer.YlGn[5];
+var boroughsColors = colorbrewer.YlGnBu[5];
 var barPadding = 15;
 var chartPadding = 50;
 
