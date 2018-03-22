@@ -7,7 +7,9 @@ var chartPadding = 50;
 
 var timelineChart = timeSeriesChart()
   .x(function (d) { return d.key; })
-  .y(function (d) { return d.value; });
+  .y(function (d) { return d.value; })
+  .width(1000)
+  .height(150);
 
 //Date formatter function
 //date example: 12/31/2015
@@ -15,9 +17,9 @@ var dateFmt = d3.timeParse('%m/%d/%Y');
 
 //Define map projection
 var projection = d3.geoMercator()
-                      .center([-73.94, 40.70])
-                      .scale(70000)
-                      .translate([width/2, height/2]);
+                   .center([-73.94, 40.70])
+                   .scale(70000)
+                   .translate([width/2, height/2]);
 
 // Setting up scalers
 var yScale = d3.scaleLinear()
@@ -76,50 +78,40 @@ d3.json('boroughs.json', function(json) {
     },
     function(data){
 
-    var csData = crossfilter(data);
-    csData.dimTime = csData.dimension(function (d) { return d.RPT_DT })
-    csData.timeDate = csData.dimTime.group(d3.timeHour);
+      var csData = crossfilter(data);
+      csData.dimTime = csData.dimension(function (d) { return d.RPT_DT })
+      csData.dimCoord = csData.dimension(function (d) { return [d.Longitude, d.Latitude] })
+      csData.timeDate = csData.dimTime.group(d3.timeHour);
 
-    //Adding dots for murders
-    svg.selectAll('circle')
-          .data(data)
-          .enter()
-          .append('circle')
-          .attr('cx', function(d) {
-            return projection([d.Longitude, d.Latitude])[0];
-          })
-          .attr('cy', function(d) {
-            return projection([d.Longitude, d.Latitude])[1];
-          })
-          .attr('r', '3')
-          .style('fill', 'red')
-          .style('opacity', 0.75);
+      timelineChart.onBrushed(function (selected) {
+        csData.dimTime.filter(selected);
+        update();
+      });
 
-    //Adding timeline
-    d3.select('#timeline')
-      .datum(csData.timeDate.all())
-      .call(timelineChart);
+      function update() {
+        //Trying to remove old dots
+        d3.select('#boroughs').selectAll('circle').remove()
+        //Adding dots for murders
+        svg.selectAll('circle')
+              .data(csData.dimCoord.top(Infinity))
+              .enter()
+              .append('circle')
+              .attr('cx', function(d) {
+                return projection([d.Longitude, d.Latitude])[0];
+              })
+              .attr('cy', function(d) {
+                return projection([d.Longitude, d.Latitude])[1];
+              })
+              .attr('r', '3')
+              .style('fill', 'red')
+              .style('opacity', 0.75);
+  
+        //Adding timeline
+        d3.select('#timeline')
+          .datum(csData.timeDate.all())
+          .call(timelineChart);
+      }
 
-    // Updating scalers
-    // yScale.domain([0, d3.max(ds, function(d) { return d; })]);
-    // xScale.domain(ds.keys())
-
-    // Adding the bars
-    // svg.selectAll("rect")
-    //       .data(ds)
-    //       .enter()
-    //       .append("rect")
-    //       .attr("x", function(d, i) {
-    //         return xScale(ds.get(i)) + (barPadding / 2);
-    //       })
-    //       .attr("y", function(d){
-    //         return yScale(d);
-    //       })
-    //       .attr("height", function(d) {
-    //         return height - yScale(d) - chartPadding;
-    //       })
-    //       .attr("width", width / ds.size - barPadding)
-    //       .attr("fill", "#ed4630");
-
+      update();
   });
 });

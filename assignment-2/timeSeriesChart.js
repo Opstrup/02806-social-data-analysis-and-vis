@@ -1,7 +1,7 @@
 function timeSeriesChart() {
   var margin = {top: 20, right: 20, bottom: 20, left: 20},
-    width = 900,
-    height = 150,
+    width = 760,
+    height = 120,
     xValue = function(d) { return d[0]; },
     yValue = function(d) { return d[1]; },
     xScale = d3.scaleTime(),
@@ -39,8 +39,6 @@ function timeSeriesChart() {
       gEnter.append("path").attr("class", "line");
       gEnter.append("g").attr("class", "x axis");
       gEnter.append("g").attr("class", "brush");
-
-
 
       // Update the outer dimensions.
       svg.merge(svgEnter).attr("width", width)
